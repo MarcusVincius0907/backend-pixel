@@ -6,7 +6,7 @@ const { auth } = require('express-oauth2-jwt-bearer');
 const checkJwt = auth({
   audience: 'https://dev-2glokavh.us.auth0.com/api/v2/',
   issuerBaseURL: `https://dev-2glokavh.us.auth0.com`,
-});
+})
 
 const routes = express.Router();
 

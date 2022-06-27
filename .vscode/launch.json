@@ -12,7 +12,7 @@
         "<node_internals>/**"
       ],
       //"program": "${workspaceFolder}\\index.js"
-      "program": "${workspaceFolder}\\api\\index.ts"
+      "program": "${workspaceFolder}\\app\\index.ts"
     }
   ]
 }
