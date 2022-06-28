@@ -1,11 +1,15 @@
 require('dotenv').config()
 import express from 'express';
 import routes  from './routes';
+import mongoose from 'mongoose';
 const cors = require("cors");
 const app = express()
 const PORT = process.env.PORT || 3000;
 //app.use("/static", express.static(__dirname +'/frontend/static'));
-import errorHandler from './middlewares/errorHandler.middleware'
+import errorHandler from './middlewares/errorHandler.middleware';
+
+// conectando com banco
+mongoose.connect(process.env.MONGODB_URI? process.env.MONGODB_URI : '' );
 
 app.get('/', (req, res) => {
   res.send('Pixel API is working.')
