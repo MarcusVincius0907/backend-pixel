@@ -89,4 +89,49 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
+export interface User{
+  name: string,
+  email: string,
+  cpf: string,
+  cell: string,
+  birthDate: string,
+  saldo?: number,
+  paymentInfo: PaymentInfo,
+  receiveInfo: ReceiveInfo,
+  addressInfo: AddressInfo,
+}
+
+interface PaymentInfo{
+  cards: Array<Card>
+}
+
+interface Card{
+  cardNumber: string,
+  cardName: string,
+  expirationDate: string,
+}
+
+interface ReceiveInfo{
+  nickname: string,
+  bankInfo: BankInfo,
+  pixKey: string,
+
+}
+interface BankInfo{
+  bankName: string,
+  agency: string,
+  account: string,
+}
+
+interface AddressInfo{
+  zipcode: string,
+  streeet: string,
+  number: string,
+  district: string,
+  city: string,
+  estate: string,
+  complement: string,
+}
+
+
 export default mongoose.model("User", UserSchema); 
