@@ -33,5 +33,7 @@ app.use("/api", routes)
 //custom error
 app.use(errorHandler);
 
+export default app;
+
 
 

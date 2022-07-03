@@ -1,43 +1,13 @@
-import { AddressInfo, PaymentInfo, ReceiveInfo, User } from "../../../app/models/User";
-import { validateUserBeforeSave } from '../../../app/controllers/UserController'
+import { validateUserBeforeSave } from '../../../app/controllers/UserController';
+import request from "supertest";
+import app from "../../../app/index";
+import { token, user } from '../../../__mock__/user';
+import ResponseDefault from '../../../app/models/ResponseDefault';
+import User, {User as UserInterface} from '../../../app/models/User';
 
 describe("test user controller funtions", () => {
 
-  const addressInfo:AddressInfo = {
-    zipcode: '05717200',
-    street: 'rua almaden',
-    number: '130',
-    district: 'vila andrade',
-    city: 'São Paulo',
-    estate: 'sp',
-    complement: 'edf macapa. 136'
-  }
-
-  const paymentInfo: PaymentInfo = {
-    cards:[
-      {
-        cardName: 'Marcus V Leite',
-        cardNumber: '123123123123',
-        expirationDate: '05/28'
-      }
-    ]
-  }
-
-  const receiveInfo: ReceiveInfo = {
-    nickname: 'pix nubank', 
-    pixKey: 'asdf@sdf.com'
-  }
-
-  const user: User = {
-    name: 'Marcus Vinicius Leite',
-    email: 'mvleite0908@gmail.com',
-    cpf: '52245472888',
-    cell: '11958755705',
-    birthDate: '2001-07-09',
-    addressInfo,
-    paymentInfo,
-    receiveInfo
-  }
+  
 
   it('testing validateUserBeforeSave', () => {
     const expectedResp = {
@@ -46,5 +16,85 @@ describe("test user controller funtions", () => {
     }
     expect(validateUserBeforeSave(user)).toStrictEqual(expectedResp);
   })
+
+
+})
+
+describe("test controller request functions", () => {
+
+  it("should create a user", async () => {
+
+    await User.findOneAndDelete({email: user.email})
+    
+    const resp = await request(app)
+    .post("/api/user/create")
+    .set('authorization',token)
+    .send(user)
+
+    expect(resp.statusCode).toBe(201)
+
+  })
+
+  
+  it('should update the user', async () => {
+
+    const userCreated = await User.findOne({email: user.email})
+
+    expect(userCreated).toBeTruthy();
+
+    if(userCreated){
+
+      let objUpdated = {
+        ...user,
+        name: 'Arlindo'
+      }
+      
+      const resp = await request(app)
+      .put(`/api/user/${userCreated._id}`)
+      .set('authorization',token)
+      .send(objUpdated)
+  
+      expect(resp.statusCode).toBe(200)
+
+    }
+    
+
+  })
+
+  it('should get a user', async () => {
+
+    const userCreated = await User.findOne({email: user.email})
+
+    expect(userCreated).toBeTruthy();
+
+    if(userCreated){
+           
+      const resp = await request(app)
+      .get(`/api/user/${userCreated._id}`)
+      .set('authorization',token)
+  
+      expect(resp.statusCode).toBe(200)
+
+    }
+
+  })
+
+  it('should delete a user', async () => {
+    const userCreated = await User.findOne({email: user.email})
+
+    expect(userCreated).toBeTruthy();
+
+    if(userCreated){
+           
+      const resp = await request(app)
+      .delete(`/api/user/${userCreated._id}`)
+      .set('authorization',token)
+  
+      expect(resp.statusCode).toBe(200)
+
+    }
+  })
+
+
 
 })

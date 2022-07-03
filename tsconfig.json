@@ -1,5 +1,5 @@
 {
-  "exclude": ["__tests__", "./build", "jest.config.js"],
+  "exclude": ["__tests__", "__mock__", "./build", "jest.config.js"],
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",

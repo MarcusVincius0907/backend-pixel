@@ -17,8 +17,9 @@ const userController = new UserController();
 routes.get("/test", checkJwt, controller.test);
 
 //user
-routes.post("/user/create", checkJwt, userController.createUser);
-routes.get("/user/:id", checkJwt, userController.findUserById)
-routes.put("/user/:id", checkJwt, userController.updateUserById)
-routes.get("/user", checkJwt, userController.listUsers)
+routes.get("/user", checkJwt, userController.list)
+routes.post("/user/create", checkJwt, userController.create);
+routes.get("/user/:id", checkJwt, userController.findById)
+routes.put("/user/:id", checkJwt, userController.updateById)
+routes.delete("/user/:id", checkJwt, userController.deleteById)
 export default routes;

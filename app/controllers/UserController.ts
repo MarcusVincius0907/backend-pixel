@@ -78,7 +78,7 @@ export function validateUserBeforeSave(user: UserInterface){
 
 export default class UserController{
 
-  async listUsers(req: Request, res: Response){
+  async list(req: Request, res: Response){
     try{
       const users = await User.find();
       return res.status(200).json({status: 'Ok', message: 'Usuário encontrado.', payload: users} as ResponseDefault);
@@ -87,7 +87,7 @@ export default class UserController{
     }
   }
 
-  async createUser(req: Request, res: Response){
+  async create(req: Request, res: Response){
     try{
 
       if(await User.findOne({ email: req.body.email}))
@@ -113,14 +113,17 @@ export default class UserController{
     }
   }
 
-  async updateUserById(req: Request, res: Response){
+  async updateById(req: Request, res: Response){
     try{
 
       const validation = validateUserBeforeSave(req.body);
 
       if(validation.isValid){
-        const user = await User.updateOne({id: req.query.id});
-        return res.status(201).json({status: 'Ok', message: 'Usuário atualizado com sucesso.', payload: user} as ResponseDefault);
+        const user = await User.findByIdAndUpdate({_id: req.params.id}, req.body);
+        if(user)
+          return res.status(200).json({status: 'Ok', message: 'Usuário atualizado com sucesso.'} as ResponseDefault);
+        else
+         return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
       }else{
         return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
       }
@@ -130,18 +133,32 @@ export default class UserController{
     }
   }
 
-  async findUserById(req: Request, res: Response){
+  async findById(req: Request, res: Response){
 
     try{
-      const user = await User.findOne({id: req.query.id});
+      const user = await User.findOne({_id: req.params.id});
       if(user)
         return res.status(200).json({status: 'Ok', message: 'Usuário encontrado.', payload: user} as ResponseDefault);
       else  
-        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.', payload: user} as ResponseDefault);
+        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
 
+  }
+
+  async deleteById(req: Request, res: Response){
+    try{
+      const user = await User.findByIdAndRemove({_id: req.params.id});
+      
+      if(user)
+        return res.status(200).json({status: 'Ok', message: 'Usuário deletado com sucesso encontrado.'} as ResponseDefault);
+      else  
+        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+      
+    }catch(e: any){
+      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+    }
   }
 
 }
