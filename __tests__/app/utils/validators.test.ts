@@ -1,4 +1,6 @@
-import { validateEmail } from '../../../app/utils/validators'
+import moment from 'moment';
+import { AddressInfo, PaymentInfo, ReceiveInfo } from '../../../app/models/User';
+import { validateEmail, validateCPF, maxLength, minLength, validateBirthDate, validateExpirationDate, validatePaymentInfo, required, validateReceiveInfo, validateAddressInfo } from '../../../app/utils/validators'
 
 describe("testing validateEmail", () => {
 
@@ -19,3 +21,160 @@ describe("testing validateEmail", () => {
 
 
 });
+
+describe("testing validateCPF", () => {
+
+  it('test a valid CPF', () => {
+    const resp = validateCPF('34959112000');
+    expect(resp).toBeTruthy();
+  })
+
+  it('test an invalid CPF', () => {
+    const resp = validateCPF('11111111111');
+    expect(resp).toBeFalsy();
+  })
+
+  it('test an invalid CPF', () => {
+    const resp = validateCPF('00135829304');
+    expect(resp).toBeFalsy();
+  })
+
+})
+
+describe("testing length validation",  () => {
+
+  it('test a valid max length', () => {
+    const resp = maxLength('5511958755705', 13)
+    expect(resp).toBeTruthy();
+  })
+
+  it('test a invalid max length', () => {
+    const resp = maxLength('551195875570566', 13)
+    expect(resp).toBeFalsy();
+  })
+
+  it('test a valid min length', () => {
+    const resp = minLength('11958755705', 11)
+    expect(resp).toBeTruthy();
+  })
+
+  it('test a invalid min length', () => {
+    const resp = minLength('958755705', 11)
+    expect(resp).toBeFalsy();
+  })
+
+})
+
+describe("testing validateBirthDate", () => {
+
+  it('valid date', () => {
+    const resp = validateBirthDate('2001-07-09');
+    expect(resp).toBeTruthy();
+  })
+
+  it('invalid date', () => {
+    const resp = validateBirthDate('sdfg');
+    expect(resp).toBeFalsy();
+  })
+
+  it('younger than 18 years', () => {
+    const resp = validateBirthDate('2020-07-09');
+    expect(resp).toBeFalsy();
+  })
+
+})
+
+describe("testing payment info validations", () => {
+  it('test valid expiration date ', () => {
+    const resp = validateExpirationDate('05/23')
+    expect(resp).toBeTruthy();
+  })
+  it('test invalid expiration date ', () => {
+    const resp = validateExpirationDate('05/21')
+    expect(resp).toBeFalsy();
+  })
+  it('test valid expiration date, month very close ', () => {
+    const resp = validateExpirationDate(`${moment().add('1 month').month}/22`)
+    expect(resp).toBeTruthy();
+  })
+  
+  it('valid payment info object', () => {
+
+    const paymentInfo: PaymentInfo = {
+      cards:[
+        {
+          cardName: 'Marcus V Leite',
+          cardNumber: '123123123123',
+          expirationDate: '05/28'
+        }
+      ]
+    }
+
+    const resp = validatePaymentInfo(paymentInfo);
+    expect(resp).toBeTruthy();
+  })
+
+
+})
+
+describe("testing receive info validation", () => {
+  it('valid receive info object, with pix', () => {
+
+    const receiveInfo: ReceiveInfo = {
+      nickname: 'pix nubank', 
+      pixKey: 'asdf@sdf.com'
+    }
+
+    expect(receiveInfo).toBeTruthy();
+
+  })
+
+  it('valid receive info object, with bank info', () => {
+
+    const receiveInfo: ReceiveInfo = {
+      nickname: 'nubank account', 
+      bankInfo: {
+        bankName: '123',
+        account: '123',
+        agency: '123'
+      }
+    }
+
+    expect(validateReceiveInfo(receiveInfo)).toBeTruthy();
+
+  })
+})
+
+describe("testing required validator", () => {
+  it('test with invalid value', () => {
+    expect(required('')).toBeFalsy()
+  })
+})
+
+describe("testing address info", () => {
+  it('test a valid address info object', () => {
+    const addressInfo:AddressInfo = {
+      zipcode: '05717200',
+      street: 'rua almaden',
+      number: '130',
+      district: 'vila andrade',
+      city: 'São Paulo',
+      estate: 'sp',
+      complement: 'edf macapa. 136'
+    }
+    expect(validateAddressInfo(addressInfo)).toBeTruthy()
+  })
+
+  it('test a invalid address info object', () => {
+    const addressInfo:AddressInfo = {
+      zipcode: '',
+      street: 'rua almaden',
+      number: '130',
+      district: 'vila andrade',
+      city: 'São Paulo',
+      estate: 'sp',
+      complement: 'edf macapa. 136'
+    }
+    expect(validateAddressInfo(addressInfo)).toBeFalsy()
+  })
+})

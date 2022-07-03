@@ -96,12 +96,12 @@ export interface User{
   cell: string,
   birthDate: string,
   saldo?: number,
-  paymentInfo: PaymentInfo,
-  receiveInfo: ReceiveInfo,
+  paymentInfo?: PaymentInfo,
+  receiveInfo?: ReceiveInfo,
   addressInfo: AddressInfo,
 }
 
-interface PaymentInfo{
+export interface PaymentInfo{
   cards: Array<Card>
 }
 
@@ -111,10 +111,10 @@ interface Card{
   expirationDate: string,
 }
 
-interface ReceiveInfo{
+export interface ReceiveInfo{
   nickname: string,
-  bankInfo: BankInfo,
-  pixKey: string,
+  bankInfo?: BankInfo,
+  pixKey?: string,
 
 }
 interface BankInfo{
@@ -123,9 +123,9 @@ interface BankInfo{
   account: string,
 }
 
-interface AddressInfo{
+export interface AddressInfo{
   zipcode: string,
-  streeet: string,
+  street: string,
   number: string,
   district: string,
   city: string,

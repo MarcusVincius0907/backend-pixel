@@ -7,12 +7,24 @@
     {
       "type": "pwa-node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "debug node express",
       "skipFiles": [
         "<node_internals>/**"
       ],
       //"program": "${workspaceFolder}\\index.js"
       "program": "${workspaceFolder}\\app\\index.ts"
+    },
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
     }
   ]
 }

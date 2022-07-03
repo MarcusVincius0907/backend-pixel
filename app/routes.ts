@@ -19,5 +19,6 @@ routes.get("/test", checkJwt, controller.test);
 //user
 routes.post("/user/create", checkJwt, userController.createUser);
 routes.get("/user/:id", checkJwt, userController.findUserById)
-
+routes.put("/user/:id", checkJwt, userController.updateUserById)
+routes.get("/user", checkJwt, userController.listUsers)
 export default routes;
