@@ -8,6 +8,10 @@ const SortitionSchema = new mongoose.Schema({
   pixelsAvailable: Number,
   reward: String,
   status: Boolean,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 export interface ISortition{
