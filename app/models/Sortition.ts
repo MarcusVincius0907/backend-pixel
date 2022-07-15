@@ -10,8 +10,8 @@ const SortitionSchema = new mongoose.Schema({
   status: Boolean,
 });
 
-export interface Sortition{
-  id: number;
+export interface ISortition{
+  _id: number;
   themes: string;
   name: string;
   date: Date;

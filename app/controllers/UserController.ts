@@ -123,7 +123,7 @@ export default class UserController{
         if(user)
           return res.status(200).json({status: 'Ok', message: 'Usuário atualizado com sucesso.'} as ResponseDefault);
         else
-         return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+         return res.status(404).json({status: 'Error', message: 'Usuário não encontrado.'} as ResponseDefault);
       }else{
         return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
       }
