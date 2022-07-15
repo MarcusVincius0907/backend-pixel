@@ -134,3 +134,17 @@ export function validateAddressInfo(addressInfo: AddressInfo){
 
   return true
 }
+
+export function isValidDate(value: any, checkIsAfter: boolean = false){
+  let newDate = new Date(value);
+  if(newDate.toString() == 'Invalid Date'){
+    return false
+  }
+
+  //se for uma data antiga, então não é valida pois já expirou
+  if(checkIsAfter){
+    return moment(value).isAfter(new Date());
+  }
+
+  return true;
+}

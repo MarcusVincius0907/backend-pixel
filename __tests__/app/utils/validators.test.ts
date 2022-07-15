@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { AddressInfo, PaymentInfo, ReceiveInfo } from '../../../app/models/User';
-import { validateEmail, validateCPF, maxLength, minLength, validateBirthDate, validateExpirationDate, validatePaymentInfo, required, validateReceiveInfo, validateAddressInfo } from '../../../app/utils/validators'
+import { validateEmail, validateCPF, maxLength, minLength, validateBirthDate, validateExpirationDate, validatePaymentInfo, required, validateReceiveInfo, validateAddressInfo, isValidDate } from '../../../app/utils/validators'
 
 describe("testing validateEmail", () => {
 
@@ -177,4 +177,21 @@ describe("testing address info", () => {
     }
     expect(validateAddressInfo(addressInfo)).toBeFalsy()
   })
+})
+
+describe("test date validation", () => {
+  it('should be a invalid date', () => {
+    expect(isValidDate('sad')).toBeFalsy()
+  })
+
+  it('should be a valid date', () => {
+    expect(isValidDate('2022-07-14')).toBeTruthy()
+  })
+
+  it('should test the past date', () => {
+    expect(isValidDate('2022-07-15', true)).toBeTruthy();
+    expect(isValidDate(moment(), true)).toBeFalsy();
+  })
+
+
 })
