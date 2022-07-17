@@ -16,19 +16,31 @@ describe("test NFT controller funtions", () => {
   it('should create NFT object', () => {
     const nft = createNFT(12);
     expect(nft).toBeTruthy();
-    expect(nft.chunks).toBeTruthy();
-    if(nft && nft.chunks)
+    expect(nft?.chunks).toBeTruthy();
+    if(nft && nft.chunks){
+
       expect(nft.chunks.length).toBe(8);
-      expect(nft.chunkSize).toBe(12);
-      const chunk = nft.chunks[0];
-      expect(chunk).toBeTruthy;
-      expect(chunk.pixels.length).toBe(144);
-      expect(chunk.position).toBe(0);
-      const pixel = chunk.pixels[0];
-      expect(pixel).toBeTruthy();
-      expect(pixel.color).toBe('#FFFFFF');
-      expect(pixel.isAvailible).toBeTruthy();
-      expect(pixel.uuid.length).toBe(36);
+      expect(nft?.chunkSize).toBe(12);
+      
+
+      if(nft?.chunks?.length > 0){
+
+        const chunk = nft?.chunks[0];
+        expect(chunk).toBeTruthy;
+        expect(chunk?.pixels.length).toBe(144);
+        expect(chunk?.position).toBe(0);
+        const pixel = chunk.pixels[0];
+
+        if(pixel){
+          expect(pixel).toBeTruthy();
+          expect(pixel.color).toBe('#FFFFFF');
+          expect(pixel.isAvailible).toBeTruthy();
+          expect(pixel.uuid.length).toBe(36);
+        }
+
+      }
+    }
+
   })
 
 })
