@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import ResponseDefault from "../models/ResponseDefault";
-import NFT, {INFT} from '../models/NFT';
+import NFT, {IChunk, INFT, INFTMeasurements, IPixel} from '../models/NFT';
 import { isValidDate, required } from "../utils/validators";
+import { v4 as uuidv4 } from 'uuid';
+
+
+const AVAILABLE_CHUNKS: number = 8;
+const VERTICAL_CHUNK_QUANTITY: number = 3
 
 /* export function validateBeforeSave(nft: INFT){
   try{
@@ -17,18 +22,57 @@ import { isValidDate, required } from "../utils/validators";
 } */
 
 /**
-  * It Calculate pixels quantity, page with and chunk with, to fit in the screen 
-  * @param chunkSize -> the NFT is divided in 9 chunks
-  * @param divElementSize -> size of each div pixel to format the NFT in the screen
-  * @returns object with all key for render NFT in the screen
+  * It calculates pixels quantity based on chunkSide
+  * @param chunkSize -> the NFT is divided in 9 chunks. The chunkSide will define the pixelQuantity
+  * @returns the pixel quantity
   */
-function calculateNFT(chunkSize: number = 12, divElementSize: number = 20){
-  const avaliableChunks = 8;
-  const verticalChunkQuantity = 3;
-  const pixelsQuantity = (chunkSize * chunkSize) * avaliableChunks; //for default value 1152
-  const pageWidth = chunkSize * verticalChunkQuantity * divElementSize;// for default 720px
+export function calculatePixelsQuantity(chunkSize: number = 12){
+  const pixelsQuantity = (chunkSize * chunkSize) * AVAILABLE_CHUNKS; //for default value 1152
+  return pixelsQuantity;
+}
+
+/**
+  * It calculates NFT width and chunk width, to fit in the screen 
+  * @param chunkSize -> the NFT is divided in 9 chunks. The chunkSide will define the pixelQuantity
+  * @param divElementSize -> size of each div pixel to format the NFT in the screen
+  * @returns object with NFT masurements
+  */
+export function calculateNFTMeasurements(chunkSize: number = 12, divElementSize: number = 20){
+  const NFTWidth = chunkSize * VERTICAL_CHUNK_QUANTITY * divElementSize;// for default 720px
   const chunkWidth = chunkSize * divElementSize;// for default 240px
-  return {pixelsQuantity, pageWidth, chunkWidth}
+  return {NFTWidth, chunkWidth} as INFTMeasurements
+}
+
+export function createNFT(chunkSize: number){
+  if( chunkSize < 10 ) return null;
+
+  const pixelsQuantity = calculatePixelsQuantity(chunkSize);
+  const nft: INFT = {
+    chunkSize,
+    chunks: []
+  }
+
+  for(let i = 0; i < AVAILABLE_CHUNKS; i++){
+
+    const pixelsPerChunk = chunkSize * chunkSize;
+    const chunk: IChunk = {
+      pixels: [],
+      position: i,
+    }
+
+    for(let j = 0; j < pixelsPerChunk; j ++){
+      chunk.pixels.push({
+        uuid: uuidv4(),
+        color: '#FFFFFF',
+        isAvailible: true,
+      } as IPixel)
+    }
+
+    nft.chunks?.push(chunk)
+  }
+
+  return nft;
+  
 }
 
 export default class SortitionController{

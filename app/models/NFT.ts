@@ -40,20 +40,26 @@ const NFTSchema = new mongoose.Schema({
 
 export interface INFT{
   _id?: number,
-  chunks: IChunk[]
+  chunks?: IChunk[],
+  chunkSize: number,
 }
 
-interface IChunk{
+export interface IChunk{
   _id?: number,
   position: number,
   pixels: IPixel[]
 }
 
-interface IPixel{
+export interface IPixel{
   _id?: number,
   uuid: string,
   color: string,
   isAvailible: boolean,
+}
+
+export interface INFTMeasurements{
+  NFTWidth:number,
+  chunkWidth: number
 }
 
 export default mongoose.model("NFT", NFTSchema); 
