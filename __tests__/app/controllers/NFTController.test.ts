@@ -12,6 +12,7 @@ describe("test NFT controller funtions", () => {
     expect(calculateNFTMeasurements(12, 20)).toStrictEqual({NFTWidth: 720, chunkWidth: 240})
   })
 
+  //TODO not working yet
   it('should create NFT object', () => {
     const nft = createNFT(12);
     expect(nft).toBeTruthy();
