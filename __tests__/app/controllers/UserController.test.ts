@@ -28,7 +28,7 @@ describe("test controller request functions", () => {
     
     const resp = await request(app)
     .post("/api/user/create")
-    .set('authorization',token)
+    .set('authorization',await token())
     .send(user)
 
     expect(resp.statusCode).toBe(201)
@@ -51,7 +51,7 @@ describe("test controller request functions", () => {
       
       const resp = await request(app)
       .put(`/api/user/${userCreated._id}`)
-      .set('authorization',token)
+      .set('authorization',await token())
       .send(objUpdated)
   
       expect(resp.statusCode).toBe(200)
@@ -71,7 +71,7 @@ describe("test controller request functions", () => {
            
       const resp = await request(app)
       .get(`/api/user/${userCreated._id}`)
-      .set('authorization',token)
+      .set('authorization',await token())
   
       expect(resp.statusCode).toBe(200)
 
@@ -88,11 +88,20 @@ describe("test controller request functions", () => {
            
       const resp = await request(app)
       .delete(`/api/user/${userCreated._id}`)
-      .set('authorization',token)
+      .set('authorization',await token())
   
       expect(resp.statusCode).toBe(200)
 
     }
+  })
+
+  it('should consult zipcode', async () => {
+    const zipcode = '05717200';
+    const resp = await request(app)
+      .get(`api/zipcode/${zipcode}`)
+      .set('authorization', await token())
+  
+      expect(resp.statusCode).toBe(200)
   })
 
 

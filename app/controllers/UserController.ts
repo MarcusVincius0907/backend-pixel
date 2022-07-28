@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ResponseDefault from "../models/ResponseDefault";
 import User, {User as UserInterface} from '../models/User';
+import getAddressByZipcode from "../utils/getAddressByZipcode";
 import { maxLength, minLength, required, validateAddressInfo, validateBirthDate, validateCPF, validateEmail, validatePaymentInfo, validateReceiveInfo } from '../utils/validators';
 
 export function validateUserBeforeSave(user: UserInterface){
@@ -156,6 +157,17 @@ export default class UserController{
       else  
         return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
       
+    }catch(e: any){
+      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+    }
+  }
+
+  async consultZipcode(req: Request, res: Response){
+    try{
+      if(!req.params.zipcode) throw "Formato do CEP não identificado";
+      
+      const address = await getAddressByZipcode(req.params.zipcode)
+      return res.status(200).json({status: 'Ok', message: 'Endereço encontrado.', payload: address} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
