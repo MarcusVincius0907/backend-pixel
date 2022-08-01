@@ -39,12 +39,17 @@ export function validateUserBeforeSave(user: UserInterface){
       isValid = false;
       message.push( 'Data inválida ou menor de idade.');
     }
-  
+
     //valida informações de endereço
-    if(!validateAddressInfo(user.addressInfo)){
-      isValid = false;
-      message.push( 'Informações de endereço inválidas.');
+    if(user.addressInfo){
+
+      if(!validateAddressInfo(user.addressInfo)){
+        isValid = false;
+        message.push( 'Informações de endereço inválidas.');
+      }
+
     }
+  
   
     //valida informações de pagamento
     if(user.paymentInfo){
@@ -167,6 +172,9 @@ export default class UserController{
       if(!req.params.zipcode) throw "Formato do CEP não identificado";
       
       const address = await getAddressByZipcode(req.params.zipcode)
+      if(!address){
+        throw "Não foi possível consultar o CEP";
+      }
       return res.status(200).json({status: 'Ok', message: 'Endereço encontrado.', payload: address} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);

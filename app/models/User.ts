@@ -126,11 +126,11 @@ interface BankInfo{
 export interface AddressInfo{
   zipcode: string,
   street: string,
-  number: string,
+  number?: string,
   district: string,
   city: string,
   estate: string,
-  complement: string,
+  complement?: string,
 }
 
 
