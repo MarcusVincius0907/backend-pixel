@@ -189,7 +189,7 @@ describe("test date validation", () => {
   })
 
   it('should test the past date', () => {
-    expect(isValidDate('2022-07-15', true)).toBeTruthy();
+    expect(isValidDate(moment().add(1,'d'), true)).toBeTruthy();
     expect(isValidDate(moment(), true)).toBeFalsy();
   })
 
