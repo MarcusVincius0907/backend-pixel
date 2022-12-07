@@ -5,6 +5,8 @@ import { token, user } from '../../../__mock__/user';
 import ResponseDefault from '../../../app/models/ResponseDefault';
 import User, {User as UserInterface} from '../../../app/models/User';
 
+//TODO jest does not recognize process.env
+
 describe("test user controller funtions", () => {
 
   
@@ -20,9 +22,20 @@ describe("test user controller funtions", () => {
 
 })
 
-describe("test controller request functions", () => {
+describe("test-controller-request-functions", () => {
 
-  it("should create a user", async () => {
+  const env = process.env
+
+  beforeEach(() => {
+      jest.resetModules()
+      process.env = { ...env }
+  })
+
+  afterEach(() => {
+      process.env = env
+  })
+
+  it("should-create-a-user", async () => {
 
     await User.findOneAndDelete({email: user.email})
     

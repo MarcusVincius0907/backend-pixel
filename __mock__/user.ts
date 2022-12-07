@@ -5,17 +5,19 @@ import {config} from '../auth0.config'
 
 export const token = async() => {
 
-  let options = { method: 'POST',
+  let options = {
     url: 'https://dev-2glokavh.us.auth0.com/oauth/token',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(config) };
+    body: config };
   
   return axios
     .post(options.url, options.body)
     .then(res => {
       return `${res.data.token_type} ${res.data.access_token}`
     })
-    .catch(err => '')
+    .catch(err => {
+      return '';
+    })
 }
 
 export const addressInfo:AddressInfo = {
