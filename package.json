@@ -2,11 +2,12 @@
   "name": "backend-pixel",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon ./app/index.ts",
+    "dev": "nodemon ./app/server.ts",
     "start": "",
     "test": "jest",
+    "testu": "jest -i SortitionController.test.ts -t \"test-controller-request-functions\" ",
     "tsc": "tsc"
   },
   "repository": {

@@ -18,7 +18,7 @@ export interface ISortition{
   _id: number;
   themes: string;
   name: string;
-  date: Date;
+  date: string;
   idNFT: string;
   pixelsAvailable: number;
   reward: string;

@@ -6,7 +6,7 @@ const regex = /^[0-9]*$/
 
 export default function getAddressByZipcode(zipcode: string){
 
-  let url = process.env.VIACEP_URL || null;
+  let url = process.env.VIACEP_URL ?? 'https://viacep.com.br/ws/';
 
   if(!url || !zipcode || !regex.test(zipcode)) return false;
 

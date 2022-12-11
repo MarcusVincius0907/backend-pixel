@@ -1,10 +1,11 @@
+import moment from "moment"
 import { ISortition } from "../app/models/Sortition"
 
 export const validSortition = {
   
   themes: '#fff',
   name: 'sortition-test',
-  date: new Date('2022-07-25'),
+  date: moment().add(1,'d').format('yyyy-MM-DD'),
   idNFT: 'sdfasdf2',
   pixelsAvailable: 120,
   reward: 'R$ 1000 + NFT',
@@ -15,7 +16,7 @@ export const invalidSortition = {
   _id: 243,
   themes: '',
   name: '',
-  date: new Date(''),
+  date: '',
   idNFT: '',
   pixelsAvailable: 0,
   reward: '',

@@ -12,3 +12,5 @@ Others: node_modules/.bin/jest
 -t <the-name-of-test-block>: actually it's a name (the first parameter) of describe(...), it(...), or test(...) block.
 
 jest -i validators.test.ts -t "test-date-validation"
+
+"testu": "jest -i UserController.test.ts -t \"test-controller-request-functions should-create-a-user\"",

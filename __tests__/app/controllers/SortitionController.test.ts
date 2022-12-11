@@ -6,11 +6,11 @@ import app from "../../../app/index";
 import { token } from '../../../__mock__/user';
 
 
-describe("test sortition controller funtions", () => {
+describe("test-sortition-controller-funtions", () => {
 
   
 
-  it('testing validateSortitionBeforeSave', () => {
+  it('testing-validateSortitionBeforeSave', () => {
     const expectedResp = {
       isValid: true,
       message: "[]"
@@ -22,15 +22,20 @@ describe("test sortition controller funtions", () => {
 
 })
 
-describe("test controller request functions", () => {
+describe("test-controller-request-functions", () => {
 
   it("should create", async () => {
 
-    await Sortition.findOneAndDelete({name: validSortition.name})
+    try{
+      await Sortition.findOneAndDelete({name: validSortition.name})
+    }catch(e){
+      console.log(e);
+      expect(!!e).toBeFalsy();
+    }
     
     const resp = await request(app)
     .post("/api/sortition/create")
-    .set('authorization',token)
+    .set('authorization', await token())
     .send(validSortition)
 
     expect(resp.statusCode).toBe(201)
@@ -53,7 +58,7 @@ describe("test controller request functions", () => {
       
       const resp = await request(app)
       .put(`/api/sortition/${objCreated._id}`)
-      .set('authorization',token)
+      .set('authorization', await token())
       .send(objUpdated)
   
       expect(resp.statusCode).toBe(200)
@@ -67,7 +72,7 @@ describe("test controller request functions", () => {
 
     const resp = await request(app)
     .get(`/api/sortition`)
-    .set('authorization',token)
+    .set('authorization', await token())
 
     expect(resp.statusCode).toBe(200)
   })
@@ -81,7 +86,7 @@ describe("test controller request functions", () => {
            
       const resp = await request(app)
       .delete(`/api/sortition/${objCreated._id}`)
-      .set('authorization',token)
+      .set('authorization', await token())
   
       expect(resp.statusCode).toBe(200)
 

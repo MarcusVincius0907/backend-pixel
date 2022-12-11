@@ -24,20 +24,14 @@ describe("test user controller funtions", () => {
 
 describe("test-controller-request-functions", () => {
 
-  const env = process.env
-
-  beforeEach(() => {
-      jest.resetModules()
-      process.env = { ...env }
-  })
-
-  afterEach(() => {
-      process.env = env
-  })
-
   it("should-create-a-user", async () => {
 
-    await User.findOneAndDelete({email: user.email})
+    try{
+      await User.findOneAndDelete({email: user.email})
+    }catch(e){
+      console.log(e);
+      expect(!!e).toBeFalsy();
+    }
     
     const resp = await request(app)
     .post("/api/user/create")
@@ -108,13 +102,20 @@ describe("test-controller-request-functions", () => {
     }
   })
 
-  it('should consult zipcode', async () => {
+  it('should-consult-zipcode', async () => {
     const zipcode = '05717200';
-    const resp = await request(app)
-      .get(`api/zipcode/${zipcode}`)
-      .set('authorization', await token())
-  
+
+    try{
+      const resp = await request(app)
+        .get(`/api/zipcode/${zipcode}`)
+        .set('authorization', await token());
+      
       expect(resp.statusCode).toBe(200)
+    }catch(e){
+      console.log(e);
+      expect(!!e).toBeFalsy();
+    }
+  
   })
 
 
