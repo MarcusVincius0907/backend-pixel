@@ -13,19 +13,9 @@ export function validateSortitionBeforeSave(sortition: ISortition){
       message.push( 'Nome é requerido');
     }
 
-    if(!required(sortition.themes)){
-      isValid = false;
-      message.push( 'Tema é requerido');
-    }
-
     if(!required(sortition.date) || !isValidDate(sortition.date, true)){
       isValid = false;
       message.push( 'Data inválida');
-    }
-
-    if(!required(sortition.pixelsAvailable)){
-      isValid = false;
-      message.push( 'Quantidade de pixels é requerido');
     }
 
     if(!required(sortition.reward)){
@@ -33,7 +23,7 @@ export function validateSortitionBeforeSave(sortition: ISortition){
       message.push( 'Premiação é requerido');
     }
 
-    if(!required(sortition.idNFT)){
+    if(!required(sortition.idNFTSummary)){
       isValid = false;
       message.push( 'id do NFT é requerido');
     }

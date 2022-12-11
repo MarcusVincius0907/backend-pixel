@@ -37,6 +37,36 @@ const NFTSchema = new mongoose.Schema({
   }
 });
 
+const NFTSummarySchema = new mongoose.Schema({
+  name:{
+    required: true,
+    type: String
+  },
+  themes:{
+    required: true,
+    type: String
+  },
+  idNFT:{
+    required: true,
+    type: String
+  },
+  pixelQuantity:{
+    required: true,
+    type: Number
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+export interface INFTSummary{
+  _id?: number,
+  name: string,
+  themes: string,
+  idNFT: number,
+  pixelQuantity: number
+}
 
 export interface INFT{
   _id?: number,
@@ -61,5 +91,9 @@ export interface INFTMeasurements{
   NFTWidth:number,
   chunkWidth: number
 }
+
+const NFTSummary = mongoose.model("NFTSummary", NFTSummarySchema); 
+
+export {NFTSummary};
 
 export default mongoose.model("NFT", NFTSchema); 

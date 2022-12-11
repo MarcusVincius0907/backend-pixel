@@ -46,7 +46,7 @@ export function calculateNFTMeasurements(chunkSize: number = 12, divElementSize:
 export function createNFT(chunkSize: number){
   if( chunkSize < 10 ) return null;
 
-  const pixelsQuantity = calculatePixelsQuantity(chunkSize);
+  //const pixelsQuantity = calculatePixelsQuantity(chunkSize);
   const nft: INFT = {
     chunkSize,
     chunks: []
@@ -75,11 +75,11 @@ export function createNFT(chunkSize: number){
   
 }
 
-export default class SortitionController{
+export default class NFTController{
   async list(req: Request, res: Response){
     try{
-      const nft = await NFT.find();
-      return res.status(200).json({status: 'Ok', message: 'NFT(s) encontrado(s).', payload: nft} as ResponseDefault);
+      const nfts = await NFT.find();
+      return res.status(200).json({status: 'Ok', message: 'NFT(s) encontrado(s).', payload: nfts} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }

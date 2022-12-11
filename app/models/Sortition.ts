@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
 
 const SortitionSchema = new mongoose.Schema({
-  themes: String,
   name: String,
   date: Date,
-  idNFT: String,
-  pixelsAvailable: Number,
+  idNFTSummary: String,
   reward: String,
   status: Boolean,
   createdAt: {
@@ -16,11 +14,9 @@ const SortitionSchema = new mongoose.Schema({
 
 export interface ISortition{
   _id: number;
-  themes: string;
   name: string;
   date: string;
-  idNFT: string;
-  pixelsAvailable: number;
+  idNFTSummary: string;
   reward: string;
   status: boolean;
 }
