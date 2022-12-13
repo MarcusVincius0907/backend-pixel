@@ -1,3 +1,5 @@
+import { INFTSummary } from "../app/models/NFT"
+
 export default {
   chunkSize: 12,
   chunks: [
@@ -5803,3 +5805,21 @@ export default {
     },
   ],
 }
+
+const NFTSummaryValid: INFTSummary = {
+  
+  name:"nft-summary-test",
+  themes: "asdf 3",
+  pixelQuantity: 10
+  
+}
+
+const NFTSummaryInvalid: INFTSummary = {
+  
+  name:"",
+  themes: "",
+  pixelQuantity: 8
+  
+}
+
+export { NFTSummaryValid, NFTSummaryInvalid }

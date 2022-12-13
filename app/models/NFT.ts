@@ -64,7 +64,7 @@ export interface INFTSummary{
   _id?: number,
   name: string,
   themes: string,
-  idNFT: number,
+  idNFT?: string,
   pixelQuantity: number
 }
 

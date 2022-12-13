@@ -23,10 +23,16 @@ export function validateNFTBeforeSave(nft: INFTSummary){
       message.push( 'Quantidade de pixel é requerido');
     }
 
+    if(nft.pixelQuantity < 10){
+      isValid = false;
+      message.push( 'Quantidade de Pixels indisponível');
+    }
+
     if(!required(nft.themes)){
       isValid = false;
       message.push( 'Tema é requerido');
     }
+
   
     return {isValid, message: JSON.stringify(message)};  
   }catch(e){
@@ -88,7 +94,6 @@ export function createNFT(chunkSize: number){
   
 }
 
-//TODO refactor dump logic
 export default class NFTController{
   async list(req: Request, res: Response){
     try{
@@ -119,11 +124,10 @@ export default class NFTController{
       
       if(validation.isValid){
 
+        //create object structure
         const newNFT = createNFT(nFTSumReq.pixelQuantity);
 
-        if(!newNFT)
-          return res.status(422).json({status: 'Error', message: "Could not create NFT."} as ResponseDefault);
-
+        //create in DB
         const nft = await NFT.create(newNFT);
 
         nFTSumReq.idNFT = nft.id;
@@ -154,9 +158,6 @@ export default class NFTController{
             await NFT.findByIdAndRemove({_id: nftSum.idNFT});
             
             const newNFT = createNFT(nFTSumReq.pixelQuantity);
-
-            if(!newNFT)
-              return res.status(422).json({status: 'Error', message: "Could not create NFT."} as ResponseDefault);
 
             const nft = await NFT.create(newNFT);
 
