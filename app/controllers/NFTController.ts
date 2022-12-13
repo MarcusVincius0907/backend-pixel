@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import ResponseDefault from "../models/ResponseDefault";
-import NFT, {IChunk, INFT, INFTMeasurements, IPixel} from '../models/NFT';
+import NFT, {NFTSummary ,IChunk, INFT, INFTMeasurements, IPixel, INFTSummary} from '../models/NFT';
 import { isValidDate, required } from "../utils/validators";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,18 +8,31 @@ import { v4 as uuidv4 } from 'uuid';
 const AVAILABLE_CHUNKS: number = 8;
 const VERTICAL_CHUNK_QUANTITY: number = 3
 
-/* export function validateBeforeSave(nft: INFT){
+export function validateNFTBeforeSave(nft: INFTSummary){
   try{
     let isValid = true;
     let message = [];
 
-    
+    if(!required(nft.name)){
+      isValid = false;
+      message.push( 'Nome é requerido');
+    }
+
+    if(!required(nft.pixelQuantity)){
+      isValid = false;
+      message.push( 'Quantidade de pixel é requerido');
+    }
+
+    if(!required(nft.themes)){
+      isValid = false;
+      message.push( 'Tema é requerido');
+    }
   
     return {isValid, message: JSON.stringify(message)};  
   }catch(e){
     return {isValid: false, message: 'Erro genérico no objeto do sorteio. Verifique se todos os campos estão preenchidos'};
   }
-} */
+}
 
 /**
   * It calculates pixels quantity based on chunkSide
@@ -75,10 +88,11 @@ export function createNFT(chunkSize: number){
   
 }
 
+//TODO refactor dump logic
 export default class NFTController{
   async list(req: Request, res: Response){
     try{
-      const nfts = await NFT.find();
+      const nfts = await NFTSummary.find();
       return res.status(200).json({status: 'Ok', message: 'NFT(s) encontrado(s).', payload: nfts} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
@@ -87,7 +101,7 @@ export default class NFTController{
   async findById(req: Request, res: Response){
 
     try{
-      const nft = await NFT.findOne({_id: req.params.id});
+      const nft = await NFTSummary.findOne({_id: req.params.id});
       if(nft)
         return res.status(200).json({status: 'Ok', message: 'NFT encontrado.', payload: nft} as ResponseDefault);
       else  
@@ -97,16 +111,25 @@ export default class NFTController{
     }
 
   }
-  /* async create(req: Request, res: Response){
+  async create(req: Request, res: Response){
     try{
 
+      const validation = validateNFTBeforeSave(req.body);
+      const nFTSumReq: INFTSummary = req.body;
       
-
-      const validation = validateSortitionBeforeSave(req.body);
-
       if(validation.isValid){
-        const sortition = await Sortition.create(req.body);
-        return res.status(201).json({status: 'Ok', message: 'Sorteio criado com sucesso.', payload: sortition} as ResponseDefault);
+
+        const newNFT = createNFT(nFTSumReq.pixelQuantity);
+
+        if(!newNFT)
+          return res.status(422).json({status: 'Error', message: "Could not create NFT."} as ResponseDefault);
+
+        const nft = await NFT.create(newNFT);
+
+        nFTSumReq.idNFT = nft.id;
+        const nftSum = await NFTSummary.create(nFTSumReq);
+
+        return res.status(201).json({status: 'Ok', message: 'Sorteio criado com sucesso.', payload: nftSum} as ResponseDefault);
       }else{
         return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
       }
@@ -114,18 +137,38 @@ export default class NFTController{
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
-  } */
- /*  async updateById(req: Request, res: Response){
+  }
+  async updateById(req: Request, res: Response){
     try{
 
-      const validation = validateSortitionBeforeSave(req.body);
+      const validation = validateNFTBeforeSave(req.body);
+      const nFTSumReq: INFTSummary = req.body;
 
       if(validation.isValid){
-        const user = await Sortition.findByIdAndUpdate({_id: req.params.id}, req.body);
-        if(user)
-          return res.status(200).json({status: 'Ok', message: 'Sorteio atualizado com sucesso.'} as ResponseDefault);
+        
+        const nftSum = await NFTSummary.findOne({_id: req.params.id});
+        if(nftSum){
+          //if pixel quantity has changed, we'll have to delete nft and create another          
+          if(nftSum.pixelQuantity != nFTSumReq.pixelQuantity){
+
+            await NFT.findByIdAndRemove({_id: nftSum.idNFT});
+            
+            const newNFT = createNFT(nFTSumReq.pixelQuantity);
+
+            if(!newNFT)
+              return res.status(422).json({status: 'Error', message: "Could not create NFT."} as ResponseDefault);
+
+            const nft = await NFT.create(newNFT);
+
+            nFTSumReq.idNFT = nft.id;
+            
+            await NFTSummary.findByIdAndUpdate({_id: req.params.id}, nFTSumReq);
+
+          }
+          return res.status(200).json({status: 'Ok', message: 'NFT atualizado com sucesso.'} as ResponseDefault);
+        }
         else
-         return res.status(404).json({status: 'Error', message: 'Sorteio não encontrado.'} as ResponseDefault);
+         return res.status(404).json({status: 'Error', message: 'NFT não encontrado.'} as ResponseDefault);
       }else{
         return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
       }
@@ -133,18 +176,25 @@ export default class NFTController{
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
-  } */
- /*  async deleteById(req: Request, res: Response){
+  }
+  async deleteById(req: Request, res: Response){
     try{
-      const sortition = await Sortition.findByIdAndRemove({_id: req.params.id});
+
+      const nftSum = await NFTSummary.findOne({_id: req.params.id});
+
+      if(nftSum)
+        await NFT.findByIdAndRemove({_id: nftSum.idNFT});
+      else{
+        return res.status(404).json({status: 'Ok', message: 'NFT não encontrado.'} as ResponseDefault);
+      }  
+
+      nftSum.remove();      
       
-      if(sortition)
-        return res.status(200).json({status: 'Ok', message: 'Sorteio deletado com sucesso encontrado.'} as ResponseDefault);
-      else  
-        return res.status(404).json({status: 'Ok', message: 'Sorteio não encontrado.'} as ResponseDefault);
+      return res.status(200).json({status: 'Ok', message: 'NFT deletado com sucesso encontrado.'} as ResponseDefault);
+      
       
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
-  } */
+  }
 }
