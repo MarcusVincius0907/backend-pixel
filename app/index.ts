@@ -2,6 +2,8 @@ require('dotenv').config()
 import express from 'express';
 import routes  from './routes';
 import mongoose from 'mongoose';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJson from '../swagger.json';
 const cors = require("cors");
 const app = express()
 
@@ -9,7 +11,7 @@ const app = express()
 import errorHandler from './middlewares/errorHandler.middleware';
 
 // conectando com banco
-mongoose.connect(process.env.MONGODB_URI ?? 'mongodb://localhost:27017' );
+mongoose.connect('mongodb+srv://marcus:marcus123@cluster0.wyjjj.mongodb.net/?retryWrites=true&w=majority' );
 
 app.get('/', (req, res) => {
   res.send('Pixel API is working.')
@@ -21,6 +23,8 @@ app.use(express.json());
 //habilitando cors
 app.use(cors());
 
+//swagger config
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJson))
 
 //centralizando todas as rotas
 app.use("/api", routes)

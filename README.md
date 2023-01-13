@@ -14,3 +14,7 @@ Others: node_modules/.bin/jest
 jest -i validators.test.ts -t "test-date-validation"
 
 "testu": "jest -i UserController.test.ts -t \"test-controller-request-functions should-create-a-user\"",
+
+#helper links
+- https://petstore.swagger.io/v2/swagger.json
+parei no minuto 26 https://www.youtube.com/watch?v=WhFx2heoFrA

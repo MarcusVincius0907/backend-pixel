@@ -1,0 +1,61 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+        "title":"API Pixel",
+        "description":"API Pixel",
+        "contact":{
+            "email":"mvleite0908@gmail.com"
+        },
+        "version":"1.0.0"
+    },
+    "servers": [
+        {
+            "url":"http://localhost:3000/api",
+            "description":"dev"
+        }
+    ],
+    "paths":{
+      "/user":{
+        "get":{
+            "summary":"Listar usuarios cadastrados",
+            "tags": ["user"]
+        }
+      },
+      "/user/create":{
+        "post":{
+            "summary":"Criar usuario",
+            "tags": ["user"],
+            "requestBody":{
+                "content":{
+                    "application/json":{
+                        "schema": {
+                            "$ref":"#/components/schemas/User"
+                        },
+                        "examples":{
+                            "user":{
+                                "value":{
+                                    "name": "Marcus"
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+      }  
+    },
+    "components":{
+        "schemas":{
+            "User":{
+                "type": "object",
+                "properties":{
+                    "name":{
+                        "type":"string"
+                    }
+
+                }
+            }
+        }
+    }
+}
