@@ -15,6 +15,30 @@
         }
     ],
     "paths":{
+      "/auth":{
+        "get":{
+            "summary":"Resgatar token",
+            "tags": ["auth"],
+            "responses":{
+        
+                "200":{
+                    "description":  "Authorization success",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "string"
+                            }
+                        }
+                    }
+    
+                },
+                "500":{
+                    "description":  "Internal error"
+                }
+            }
+        }
+        
+      },
       "/user":{
         "get":{
             "summary":"Listar usuarios cadastrados",
@@ -25,6 +49,11 @@
         "post":{
             "summary":"Criar usuario",
             "tags": ["user"],
+            "security":[
+                {
+                    "bearerAuth":[]
+                } 
+            ],
             "requestBody":{
                 "content":{
                     "application/json":{
@@ -34,12 +63,60 @@
                         "examples":{
                             "user":{
                                 "value":{
-                                    "name": "Marcus"
+                                    "name": "Marcus",
+                                    "email": "mvleite0908@gmail.com",
+                                    "cpf": "52245472888",
+                                    "cell":"11958755705",
+                                    "birthDate":"2001-07-09",
+                                    "addressInfo":{
+                                        "zipcode": "05717200",
+                                        "street": "rua almaden",
+                                        "number": "130",
+                                        "district": "vila andrade",
+                                        "city": "São Paulo",
+                                        "estate": "sp",
+                                        "complement": "edf macapa. 136"
+                                    },
+                                    "paymentInfo":{
+                                        "cards":[
+                                            {
+                                                "cardName":"Marcus V Leite",
+                                                "cardNumber":"123123123123",
+                                                "expirationDate":"05/28"
+                                            }
+                                        ]
+                                    },
+                                    "receiveInfo":{
+                                        "nickname":"pix nubank",
+                                        "pixKey":"asdf@sdf.com"
+                                    }
                                 }
                                 
                             }
                         }
                     }
+                }
+            },
+            "responses":{
+                "401":{
+                    "description": "Unauthorized"
+                },
+                "422":{
+                    "description":  "User already exists"
+                },
+                "201":{
+                    "description":  "User created",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "500":{
+                    "description":  "Internal error"
                 }
             }
         }
@@ -52,10 +129,109 @@
                 "properties":{
                     "name":{
                         "type":"string"
+                    },
+                    "email": {
+                        "type":"string"
+                    },
+                    "cell":{
+                        "type":"string"
+                    },
+                    "birthDate":{
+                        "type":"string"
+                    },
+                    "saldo":{
+                        "type":"number"
+                    },
+                    "paymentInfo":{
+                        "type":"object",
+                        "properties":{
+                            "cards":{
+                                "type":"array",
+                                "items":{
+                                    "type":"object",
+                                    "properties":{
+                                        "cardNumber":{
+                                            "type":"string"
+                                        },
+                                        "cardName":{
+                                            "type":"string"
+                                        },
+                                        "expirationDate":{
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "receiveInfo":{
+                        "type":"object",
+                        "properties":{
+                            "nickname":{
+                                "type": "string"
+                            },
+                            "pixKey":{
+                                "type":"string",
+                                "required": false
+                            },
+                            "bankInfo":{
+                                "type":"object",
+                                "required": false,
+                                "properties":{
+                                    "bankName":{
+                                        "type":"string"
+                                    },
+                                    "agency":{
+                                        "type":"string"
+                                    },
+                                    "account":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "addressInfo":{
+                        "type":"object",
+                        "properties":{
+                            "zipcode": {
+                                "type":"string"
+                            },
+                            "street": {
+                                "type":"string"
+                            },
+                            "number": {
+                                "type":"string"
+                            },
+                            "district": {
+                                "type":"string"
+                            },
+                            "city": {
+                                "type":"string"
+                            },
+                            "estate": {
+                                "type":"string"
+                            },
+                            "complement": {
+                                "type":"string",
+                                "required":false
+                            }
+
+                        }
                     }
+                    
 
                 }
             }
-        }
+        },
+        "securitySchemes": {
+            "bearerAuth":{
+                "type":"http",
+                "scheme": "bearer",
+                "bearerFormat":"JWT"
+            }
+          }
     }
 }

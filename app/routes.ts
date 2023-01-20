@@ -1,4 +1,5 @@
 import express from 'express';
+import { AuthController } from './controllers/AuthController';
 import Controllers from './controllers/controller';
 import NFTController from './controllers/NFTController';
 import SortitionController from './controllers/SortitionController';
@@ -17,8 +18,10 @@ const controller = new Controllers();
 const userController = new UserController();
 const sortitionController = new SortitionController();
 const nFTController = new NFTController();
+const authController = new AuthController();
 
 routes.get("/test", checkJwt, controller.test);
+routes.get("/auth", authController.getToken);
 
 //user
 routes.get("/user", checkJwt, userController.list);
