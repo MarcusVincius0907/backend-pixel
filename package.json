@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  
   "scripts": {
     "dev": "nodemon ./app/server.ts",
     "start": "",
     "test": "jest",
     "testu": "jest -i SortitionController.test.ts -t \"test-controller-request-functions\" ",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "sw":"ts-node ./swagger.ts"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "jest": "^28.1.2",
     "nodemon": "^2.0.12",
     "supertest": "^6.2.3",
+    "swagger-autogen": "^2.22.0",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typescript": "^4.4.3"

@@ -18,3 +18,4 @@ jest -i validators.test.ts -t "test-date-validation"
 #helper links
 - https://petstore.swagger.io/v2/swagger.json
 parei no minuto 26 https://www.youtube.com/watch?v=WhFx2heoFrA
+para gerar swagger automaitcamente: https://www.npmjs.com/package/swagger-autogen#oauth2-example
