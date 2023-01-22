@@ -19,8 +19,23 @@ async function getTokenAuth0(){
         })
 }
 
-export class AuthController{
+export default class AuthController{
     async getToken(req: Request,res: Response){
+        // #swagger.tags = ['Auth']
+        // #swagger.summary = 'Obter token'
+        /*
+        #swagger.responses[200] = {
+            description: 'Token encontrado',
+            content: {
+                  "application/json": {
+                      schema: { type: string },
+                  }
+              }
+          #swagger.responses[500] = {
+            description: "Erro no servidor"
+          }
+        } 
+      */
         try{
           const token = await getTokenAuth0();
           return res.status(200).json({status: 'Ok', message: 'Token encontrado', payload: token} as ResponseDefault);

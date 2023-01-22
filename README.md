@@ -19,3 +19,16 @@ jest -i validators.test.ts -t "test-date-validation"
 - https://petstore.swagger.io/v2/swagger.json
 parei no minuto 26 https://www.youtube.com/watch?v=WhFx2heoFrA
 para gerar swagger automaitcamente: https://www.npmjs.com/package/swagger-autogen#oauth2-example
+
+
+#example auth0 config ts file:
+const config = {
+    
+    client_id:"xxxxxxxxxxxxxxxxxxxxxxxxxx",
+    client_secret:"xx-x-xxx",
+    audience:"https://dev-2glokavh.us.auth0.com/api/v2/",
+    grant_type:"client_credentials"
+    
+}
+
+export default config;

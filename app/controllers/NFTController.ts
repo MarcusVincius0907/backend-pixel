@@ -96,6 +96,28 @@ export function createNFT(chunkSize: number){
 
 export default class NFTController{
   async list(req: Request, res: Response){
+    // #swagger.tags = ['NFTs']
+    // #swagger.summary = 'Listar todos os NFTs resumidos'
+    // #swagger.security = [{"bearerAuth": []}]
+    /* #swagger.responses[200] = {
+            description: "NFT(s) encontrado(s).",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "array",
+                      items:{
+                        type: "object",
+                        $ref: "#/components/schemas/NFTSummary"
+                      }
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+            description: "Requisição não autorizada.",
+        }   
+    */
     try{
       const nfts = await NFTSummary.find();
       return res.status(200).json({status: 'Ok', message: 'NFT(s) encontrado(s).', payload: nfts} as ResponseDefault);
@@ -103,20 +125,72 @@ export default class NFTController{
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
   }
+  
   async findById(req: Request, res: Response){
+    // #swagger.tags = ['NFTs']
+    // #swagger.summary = 'Obter um NFT resumido pelo id'
+    // #swagger.security = [{"bearerAuth": []}]
+     /* #swagger.responses[200] = {
+            description: "NFT encontrado.",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "object",
+                      $ref: "#/components/schemas/NFTSummary"
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+                description: "Requisição não autorizada.",
+            }   
+        */
 
     try{
       const nft = await NFTSummary.findOne({_id: req.params.id});
       if(nft)
         return res.status(200).json({status: 'Ok', message: 'NFT encontrado.', payload: nft} as ResponseDefault);
       else  
-        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+        return res.status(404).json({status: 'Ok', message: 'NFT não encontrado.'} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
     }
 
   }
   async create(req: Request, res: Response){
+    // #swagger.tags = ['NFTs']
+    // #swagger.summary = 'Criar um NFT'
+    // #swagger.security = [{"bearerAuth": []}] 
+    /* #swagger.requestBody = {
+              required: true,
+              content: {
+                  "application/json": {
+                      schema: { $ref: "#/components/schemas/NFTSummary" },
+                      examples: { 
+                          NFTSummary: { $ref: "#/components/examples/NFTSummary" }
+                      }
+                  }
+              }
+          }
+        */
+    /* #swagger.responses[201] = {
+            description: "NFT criado com sucesso.",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "object",
+                      $ref: "#/components/schemas/NFTSummary"
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+              description: "Requisição não autorizada.",
+              
+          }   
+      */
     try{
 
       const validation = validateNFTBeforeSave(req.body);
@@ -143,6 +217,29 @@ export default class NFTController{
     }
   }
   async updateById(req: Request, res: Response){
+    // #swagger.tags = ['NFTs']
+    // #swagger.summary = 'Atualizar um NFT pelo id'
+    // #swagger.security = [{"bearerAuth": []}]
+    /* #swagger.requestBody = {
+              required: true,
+              content: {
+                  "application/json": {
+                      schema: { $ref: "#/components/schemas/NFTSummary" },
+                      examples: { 
+                          NFTSummary: { $ref: "#/components/examples/NFTSummary" }
+                      }
+                  }
+              }
+          }
+        */
+     /* #swagger.responses[200] = {
+            description: "NFT atualizado com sucesso.",
+        }   
+    */
+    /* #swagger.responses[401] = {
+                description: "Requisição não autorizada.",
+            }   
+        */
     try{
 
       const validation = validateNFTBeforeSave(req.body);
@@ -179,6 +276,17 @@ export default class NFTController{
     }
   }
   async deleteById(req: Request, res: Response){
+    // #swagger.tags = ['NFTs']
+    // #swagger.summary = 'Deletar um NFT pelo id'
+    // #swagger.security = [{"bearerAuth": []}]
+     /* #swagger.responses[200] = {
+            description: "NFT deletado com sucesso.",
+        }   
+    */
+    /* #swagger.responses[401] = {
+                description: "Requisição não autorizada.",
+            }   
+        */
     try{
 
       const nftSum = await NFTSummary.findOne({_id: req.params.id});

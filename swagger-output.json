@@ -1,14 +1,19 @@
 {
-  "swagger": "2.0",
+  "swagger": "3.0.0",
+  "openapi": "3.0.0",
   "info": {
-    "title": "My API",
-    "description": "Description",
+    "title": "API Pixel",
+    "description": "API Pixel",
+    "contact": {
+      "email": "mvleite0908@gmail.com"
+    },
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http"
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "dev"
+    }
   ],
   "paths": {
     "/test": {
@@ -24,13 +29,10 @@
     },
     "/auth": {
       "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/user": {
-      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Obter token",
         "description": "",
         "parameters": [],
         "responses": {
@@ -43,56 +45,126 @@
         }
       }
     },
-    "/user/create": {
-      "post": {
+    "/user": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Listar todos os usuários",
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "cpf": {
-                  "example": "any"
-                },
-                "cell": {
-                  "example": "any"
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/User"
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/create": {
+      "post": {
+        "tags": [
+          "Users"
         ],
+        "summary": "Criar um usuário",
+        "description": "",
+        "parameters": [],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Usuário criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "422": {
             "description": "Unprocessable Entity"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "User": {
+                  "$ref": "#/components/examples/User"
+                }
+              }
+            }
           }
         }
       }
     },
     "/user/{id}": {
       "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Obter um usuário pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Usuário encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -100,21 +172,35 @@
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualizar um usuário pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Usuário atualizado com sucesso."
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -125,21 +211,50 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "User": {
+                  "$ref": "#/components/examples/User"
+                }
+              }
+            }
+          }
         }
       },
       "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Deletar um usuário pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Usuário deletado com sucesso."
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -147,75 +262,169 @@
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/zipcode/{zipcode}": {
       "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Consultar endereço",
         "description": "",
         "parameters": [
           {
             "name": "zipcode",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Endereço encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AddressInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/sortition": {
       "get": {
+        "tags": [
+          "Sortitions"
+        ],
+        "summary": "Listar todos os sorteios",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sorteio(s) encontrado(s).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Sortition"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/sortition/create": {
       "post": {
+        "tags": [
+          "Sortitions"
+        ],
+        "summary": "Criar um sorteio",
         "description": "",
         "parameters": [],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Sorteio criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Sortition"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "422": {
             "description": "Unprocessable Entity"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sortition"
+              },
+              "examples": {
+                "Sortition": {
+                  "$ref": "#/components/examples/Sortition"
+                }
+              }
+            }
           }
         }
       }
     },
     "/sortition/{id}": {
       "put": {
+        "tags": [
+          "Sortitions"
+        ],
+        "summary": "Atualizar um sorteio pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sorteio atualizado com sucesso."
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -226,21 +435,50 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sortition"
+              },
+              "examples": {
+                "Sortition": {
+                  "$ref": "#/components/examples/Sortition"
+                }
+              }
+            }
+          }
         }
       },
       "delete": {
+        "tags": [
+          "Sortitions"
+        ],
+        "summary": "Deletar um sorteio pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sorteio deletado com sucesso."
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -248,85 +486,118 @@
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/nft": {
       "get": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Listar todos os NFTs resumidos",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/nft/create": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "pixelQuantity": {
-                  "example": "any"
-                },
-                "idNFT": {
-                  "example": "any"
+            "description": "NFT(s) encontrado(s).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/NFTSummary"
+                  }
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
           },
-          "422": {
-            "description": "Unprocessable Entity"
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/nft/{id}": {
-      "put": {
+      "get": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Obter um NFT resumido pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "pixelQuantity": {
-                  "example": "any"
-                },
-                "idNFT": {
-                  "example": "any"
-                }
-              }
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "NFT encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/NFTSummary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Atualizar um NFT pelo id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NFT atualizado com sucesso."
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -336,22 +607,51 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NFTSummary"
+              },
+              "examples": {
+                "NFTSummary": {
+                  "$ref": "#/components/examples/NFTSummary"
+                }
+              }
+            }
           }
         }
       },
       "delete": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Deletar um NFT pelo id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "NFT deletado com sucesso."
+          },
+          "401": {
+            "description": "Requisição não autorizada."
           },
           "404": {
             "description": "Not Found"
@@ -359,7 +659,297 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/nft/create": {
+      "post": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Criar um NFT",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "NFT criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/NFTSummary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NFTSummary"
+              },
+              "examples": {
+                "NFTSummary": {
+                  "$ref": "#/components/examples/NFTSummary"
+                }
+              }
+            }
+          }
         }
+      }
+    }
+  },
+  "components": {
+    "examples": {
+      "User": {
+        "value": {
+          "name": "Marcus",
+          "email": "mvleite0908@gmail.com",
+          "cpf": "52245472888",
+          "cell": "11958755705",
+          "birthDate": "2001-07-09",
+          "addressInfo": {
+            "zipcode": "05717200",
+            "street": "rua almaden",
+            "number": "130",
+            "district": "vila andrade",
+            "city": "São Paulo",
+            "estate": "sp",
+            "complement": "edf macapa. 136"
+          },
+          "paymentInfo": {
+            "cards": [
+              {
+                "cardName": "Marcus V Leite",
+                "cardNumber": "123123123123",
+                "expirationDate": "05/28"
+              }
+            ]
+          },
+          "receiveInfo": {
+            "nickname": "pix nubank",
+            "pixKey": "asdf@sdf.com"
+          }
+        }
+      },
+      "AddressInfo": {
+        "value": {
+          "zipcode": "05717200",
+          "street": "rua almaden",
+          "number": "130",
+          "district": "vila andrade",
+          "city": "São Paulo",
+          "estate": "sp",
+          "complement": "edf macapa. 136"
+        }
+      },
+      "Sortition": {
+        "value": {
+          "name": "sortition inverno",
+          "date": "2023-01-22",
+          "idNFTSummary": "sdfasdf2",
+          "reward": "R$ 1000 + NFT",
+          "status": true
+        }
+      },
+      "NFTSummary": {
+        "value": {
+          "name": "nft-summary 1",
+          "themes": "asdf 3",
+          "pixelQuantity": 10
+        }
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "cell": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "saldo": {
+            "type": "number"
+          },
+          "paymentInfo": {
+            "type": "object",
+            "properties": {
+              "cards": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cardNumber": {
+                      "type": "string"
+                    },
+                    "cardName": {
+                      "type": "string"
+                    },
+                    "expirationDate": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "receiveInfo": {
+            "type": "object",
+            "properties": {
+              "nickname": {
+                "type": "string"
+              },
+              "pixKey": {
+                "type": "string",
+                "required": false
+              },
+              "bankInfo": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "bankName": {
+                    "type": "string"
+                  },
+                  "agency": {
+                    "type": "string"
+                  },
+                  "account": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "addressInfo": {
+            "type": "object",
+            "properties": {
+              "zipcode": {
+                "type": "string"
+              },
+              "street": {
+                "type": "string"
+              },
+              "number": {
+                "type": "string"
+              },
+              "district": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "estate": {
+                "type": "string"
+              },
+              "complement": {
+                "type": "string",
+                "required": false
+              }
+            }
+          }
+        }
+      },
+      "AddressInfo": {
+        "type": "object",
+        "properties": {
+          "zipcode": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "estate": {
+            "type": "string"
+          },
+          "complement": {
+            "type": "string"
+          }
+        }
+      },
+      "Sortition": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "idNFTSummary": {
+            "type": "string"
+          },
+          "reward": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "NFTSummary": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "required": true,
+            "type": "string"
+          },
+          "themes": {
+            "required": true,
+            "type": "string"
+          },
+          "idNFT": {
+            "type": "string"
+          },
+          "pixelQuantity": {
+            "required": true,
+            "type": "number"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

@@ -35,7 +35,30 @@ export function validateSortitionBeforeSave(sortition: ISortition){
 }
 
 export default class SortitionController{
+  
   async list(req: Request, res: Response){
+    // #swagger.tags = ['Sortitions']
+    // #swagger.summary = 'Listar todos os sorteios'
+    // #swagger.security = [{"bearerAuth": []}]
+    /* #swagger.responses[200] = {
+            description: "Sorteio(s) encontrado(s).",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "array",
+                      items:{
+                        type: "object",
+                        $ref: "#/components/schemas/Sortition"
+                      }
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+            description: "Requisição não autorizada.",
+        }   
+    */
     try{
       const sortition = await Sortition.find();
       return res.status(200).json({status: 'Ok', message: 'Sorteio(s) encontrado(s).', payload: sortition} as ResponseDefault);
@@ -44,6 +67,38 @@ export default class SortitionController{
     }
   }
   async create(req: Request, res: Response){
+    // #swagger.tags = ['Sortitions']
+    // #swagger.summary = 'Criar um sorteio'
+    // #swagger.security = [{"bearerAuth": []}] 
+    /* #swagger.requestBody = {
+              required: true,
+              content: {
+                  "application/json": {
+                      schema: { $ref: "#/components/schemas/Sortition" },
+                      examples: { 
+                          Sortition: { $ref: "#/components/examples/Sortition" }
+                      }
+                  }
+              }
+          }
+        */
+    /* #swagger.responses[201] = {
+            description: "Sorteio criado com sucesso.",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "object",
+                      $ref: "#/components/schemas/Sortition"
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+              description: "Requisição não autorizada.",
+              
+          }   
+      */
     try{
 
       const validation = validateSortitionBeforeSave(req.body);
@@ -60,13 +115,36 @@ export default class SortitionController{
     }
   }
   async updateById(req: Request, res: Response){
+    // #swagger.tags = ['Sortitions']
+    // #swagger.summary = 'Atualizar um sorteio pelo id'
+    // #swagger.security = [{"bearerAuth": []}]
+    /* #swagger.requestBody = {
+              required: true,
+              content: {
+                  "application/json": {
+                      schema: { $ref: "#/components/schemas/Sortition" },
+                      examples: { 
+                          Sortition: { $ref: "#/components/examples/Sortition" }
+                      }
+                  }
+              }
+          }
+        */
+     /* #swagger.responses[200] = {
+            description: "Sorteio atualizado com sucesso.",
+        }   
+    */
+    /* #swagger.responses[401] = {
+                description: "Requisição não autorizada.",
+            }   
+        */
     try{
 
       const validation = validateSortitionBeforeSave(req.body);
 
       if(validation.isValid){
-        const user = await Sortition.findByIdAndUpdate({_id: req.params.id}, req.body);
-        if(user)
+        const sortition = await Sortition.findByIdAndUpdate({_id: req.params.id}, req.body);
+        if(sortition)
           return res.status(200).json({status: 'Ok', message: 'Sorteio atualizado com sucesso.'} as ResponseDefault);
         else
          return res.status(404).json({status: 'Error', message: 'Sorteio não encontrado.'} as ResponseDefault);
@@ -79,6 +157,17 @@ export default class SortitionController{
     }
   }
   async deleteById(req: Request, res: Response){
+    // #swagger.tags = ['Sortitions']
+    // #swagger.summary = 'Deletar um sorteio pelo id'
+    // #swagger.security = [{"bearerAuth": []}]
+     /* #swagger.responses[200] = {
+            description: "Sorteio deletado com sucesso.",
+        }   
+    */
+    /* #swagger.responses[401] = {
+                description: "Requisição não autorizada.",
+            }   
+        */
     try{
       const sortition = await Sortition.findByIdAndRemove({_id: req.params.id});
       

@@ -1,5 +1,5 @@
 import express from 'express';
-import { AuthController } from './controllers/AuthController';
+import AuthController from './controllers/AuthController';
 import Controllers from './controllers/controller';
 import NFTController from './controllers/NFTController';
 import SortitionController from './controllers/SortitionController';
@@ -39,6 +39,7 @@ routes.delete("/sortition/:id", checkJwt, sortitionController.deleteById);
 
 //NFT
 routes.get("/nft", checkJwt, nFTController.list);
+routes.get("/nft/:id", checkJwt, nFTController.findById);
 routes.post("/nft/create", checkJwt, nFTController.create);
 routes.put("/nft/:id", checkJwt, nFTController.updateById);
 routes.delete("/nft/:id", checkJwt, nFTController.deleteById);

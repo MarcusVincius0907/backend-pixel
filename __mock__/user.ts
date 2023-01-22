@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AddressInfo, PaymentInfo, ReceiveInfo, User } from "../app/models/User"
 
-import {config} from '../auth0.config'
+import config from '../auth0.config'
 
 export const token = async() => {
 
