@@ -27,15 +27,17 @@ export default class AuthController{
         #swagger.responses[200] = {
             description: 'Token encontrado',
             content: {
-                  "application/json": {
-                      schema: { type: string },
-                  }
+              "application/json": {
+                schema: { type: 'string' },
               }
-          #swagger.responses[500] = {
-            description: "Erro no servidor"
-          }
+            } 
         } 
       */
+     /* 
+     #swagger.responses[500] = {
+            description: "Erro no servidor"
+        }
+     */
         try{
           const token = await getTokenAuth0();
           return res.status(200).json({status: 'Ok', message: 'Token encontrado', payload: token} as ResponseDefault);

@@ -27,6 +27,7 @@ routes.get("/auth", authController.getToken);
 routes.get("/user", checkJwt, userController.list);
 routes.post("/user/create", checkJwt, userController.create);
 routes.get("/user/:id", checkJwt, userController.findById);
+routes.put("/user/email", checkJwt, userController.findByEmail);
 routes.put("/user/:id", checkJwt, userController.updateById);
 routes.delete("/user/:id", checkJwt, userController.deleteById);
 routes.get("/zipcode/:zipcode", userController.consultZipcode);

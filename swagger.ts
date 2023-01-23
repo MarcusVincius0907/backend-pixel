@@ -195,6 +195,15 @@ const doc = {
                     "type": "number"
                 },
             }
+        },
+
+        "FindByEmail":{
+            "type": "object",
+            "properties":{
+                "email":{
+                    "type":"string"
+                }
+            }
         }
     },
     examples:{
@@ -258,6 +267,12 @@ const doc = {
                 "name":"nft-summary 1",
                 "themes": "asdf 3",
                 "pixelQuantity": 10
+            }
+        },
+
+        "FindByEmail":{
+            "value":{
+                "email": "mvleite0908@gmail.com"
             }
         }
     }

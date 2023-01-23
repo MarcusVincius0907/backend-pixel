@@ -37,10 +37,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Token encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro no servidor"
           }
         }
       }
@@ -268,6 +275,58 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/user/email": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Obter um usuário pelo email",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindByEmail"
+              },
+              "examples": {
+                "User": {
+                  "$ref": "#/components/examples/FindByEmail"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/zipcode/{zipcode}": {
@@ -779,6 +838,11 @@
           "themes": "asdf 3",
           "pixelQuantity": 10
         }
+      },
+      "FindByEmail": {
+        "value": {
+          "email": "mvleite0908@gmail.com"
+        }
       }
     },
     "schemas": {
@@ -941,6 +1005,14 @@
           "pixelQuantity": {
             "required": true,
             "type": "number"
+          }
+        }
+      },
+      "FindByEmail": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
           }
         }
       }

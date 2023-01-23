@@ -148,6 +148,52 @@ export default class UserController{
     }
 
   }
+   
+  //TODO create test for this method
+  async findByEmail(req: Request, res: Response){
+    // #swagger.tags = ['Users']
+    // #swagger.summary = 'Obter um usuário pelo email'
+    // #swagger.security = [{"bearerAuth": []}]
+    /* #swagger.requestBody = {
+              required: true,
+              content: {
+                  "application/json": {
+                      schema: { $ref: "#/components/schemas/FindByEmail" },
+                      examples: { 
+                          User: { $ref: "#/components/examples/FindByEmail" }
+                      }
+                  }
+              }
+          }
+        */
+     /* #swagger.responses[200] = {
+            description: "Usuário encontrado.",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "object",
+                      $ref: "#/components/schemas/User"
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+                description: "Requisição não autorizada.",
+            }   
+        */
+    
+    try{
+      const user = await User.findOne({email: req.body.email});
+      if(user)
+        return res.status(200).json({status: 'Ok', message: 'Usuário encontrado.', payload: user} as ResponseDefault);
+      else  
+        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+    }catch(e: any){
+      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+    }
+
+  }
 
   async create(req: Request, res: Response){
     // #swagger.tags = ['Users']
