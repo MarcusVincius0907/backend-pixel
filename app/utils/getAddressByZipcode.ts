@@ -17,7 +17,7 @@ export default function getAddressByZipcode(zipcode: string){
     .then(res => {
 
       const address = {
-        zipcode: res.data.cep,
+        zipcode: res.data.cep.replace('-', ''),
         street: res.data.logradouro,
         district: res.data.bairro,
         city: res.data.localidade,

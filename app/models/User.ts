@@ -70,12 +70,10 @@ const UserSchema = new mongoose.Schema({
 
     paymentInfo:{
       type: PaymentInfoSchema,
-      required: true,
     },
 
     receiveInfo: {
       type: ReceiveInfoScheme,
-      required:true,
     },
 
     addressInfo: {
