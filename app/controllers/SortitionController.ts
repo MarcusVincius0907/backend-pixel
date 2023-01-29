@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ResponseDefault from "../models/ResponseDefault";
+import ResponseDefault, { ResponseStatus } from "../models/ResponseDefault";
 import Sortition, {ISortition} from '../models/Sortition';
 import { isValidDate, required } from "../utils/validators";
 
@@ -61,9 +61,9 @@ export default class SortitionController{
     */
     try{
       const sortition = await Sortition.find();
-      return res.status(200).json({status: 'Ok', message: 'Sorteio(s) encontrado(s).', payload: sortition} as ResponseDefault);
+      return res.status(200).json({status: ResponseStatus.OK, message: 'Sorteio(s) encontrado(s).', payload: sortition} as ResponseDefault);
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
   async create(req: Request, res: Response){
@@ -105,13 +105,13 @@ export default class SortitionController{
 
       if(validation.isValid){
         const sortition = await Sortition.create(req.body);
-        return res.status(201).json({status: 'Ok', message: 'Sorteio criado com sucesso.', payload: sortition} as ResponseDefault);
+        return res.status(201).json({status: ResponseStatus.OK, message: 'Sorteio criado com sucesso.', payload: sortition} as ResponseDefault);
       }else{
-        return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
+        return res.status(422).json({status: ResponseStatus.INVALID_INFO, message: validation.message} as ResponseDefault);
       }
 
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
   async updateById(req: Request, res: Response){
@@ -145,15 +145,15 @@ export default class SortitionController{
       if(validation.isValid){
         const sortition = await Sortition.findByIdAndUpdate({_id: req.params.id}, req.body);
         if(sortition)
-          return res.status(200).json({status: 'Ok', message: 'Sorteio atualizado com sucesso.'} as ResponseDefault);
+          return res.status(200).json({status: ResponseStatus.OK, message: 'Sorteio atualizado com sucesso.'} as ResponseDefault);
         else
-         return res.status(404).json({status: 'Error', message: 'Sorteio não encontrado.'} as ResponseDefault);
+         return res.status(404).json({status: ResponseStatus.NOT_FOUND, message: 'Sorteio não encontrado.'} as ResponseDefault);
       }else{
-        return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
+        return res.status(422).json({status: ResponseStatus.INVALID_INFO, message: validation.message} as ResponseDefault);
       }
 
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
   async deleteById(req: Request, res: Response){
@@ -172,12 +172,12 @@ export default class SortitionController{
       const sortition = await Sortition.findByIdAndRemove({_id: req.params.id});
       
       if(sortition)
-        return res.status(200).json({status: 'Ok', message: 'Sorteio deletado com sucesso encontrado.'} as ResponseDefault);
+        return res.status(200).json({status: ResponseStatus.OK, message: 'Sorteio deletado com sucesso encontrado.'} as ResponseDefault);
       else  
-        return res.status(404).json({status: 'Ok', message: 'Sorteio não encontrado.'} as ResponseDefault);
+        return res.status(404).json({status: ResponseStatus.NOT_FOUND, message: 'Sorteio não encontrado.'} as ResponseDefault);
       
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
 }

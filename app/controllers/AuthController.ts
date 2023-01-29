@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Request, Response } from 'express';
 import config from '../../auth0.config';
-import ResponseDefault from '../models/ResponseDefault';
+import ResponseDefault, { ResponseStatus } from '../models/ResponseDefault';
 
 async function getTokenAuth0(){
     let options = {
@@ -40,9 +40,9 @@ export default class AuthController{
      */
         try{
           const token = await getTokenAuth0();
-          return res.status(200).json({status: 'Ok', message: 'Token encontrado', payload: token} as ResponseDefault);
+          return res.status(200).json({status: ResponseStatus.OK, message: 'Token encontrado', payload: token} as ResponseDefault);
         }catch(e: any){
-          return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+          return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
         }
       }
 }

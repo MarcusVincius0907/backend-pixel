@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ResponseDefault from "../models/ResponseDefault";
+import ResponseDefault, { ResponseStatus } from "../models/ResponseDefault";
 import User, {User as UserInterface} from '../models/User';
 import getAddressByZipcode from "../utils/getAddressByZipcode";
 import { maxLength, minLength, required, validateAddressInfo, validateBirthDate, validateCPF, validateEmail, validatePaymentInfo, validateReceiveInfo } from '../utils/validators';
@@ -110,9 +110,9 @@ export default class UserController{
 
     try{
       const users = await User.find();
-      return res.status(200).json({status: 'Ok', message: 'Usuário encontrado.', payload: users} as ResponseDefault);
+      return res.status(200).json({status: ResponseStatus.OK, message: 'Usuário encontrado.', payload: users} as ResponseDefault);
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
 
@@ -140,11 +140,11 @@ export default class UserController{
     try{
       const user = await User.findOne({_id: req.params.id});
       if(user)
-        return res.status(200).json({status: 'Ok', message: 'Usuário encontrado.', payload: user} as ResponseDefault);
+        return res.status(200).json({status: ResponseStatus.OK, message: 'Usuário encontrado.', payload: user} as ResponseDefault);
       else  
-        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+        return res.status(404).json({status: ResponseStatus.NOT_FOUND, message: 'Usuário não encontrado.'} as ResponseDefault);
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
 
   }
@@ -186,11 +186,11 @@ export default class UserController{
     try{
       const user = await User.findOne({email: req.body.email});
       if(user)
-        return res.status(200).json({status: 'Ok', message: 'Usuário encontrado.', payload: user} as ResponseDefault);
+        return res.status(200).json({status: ResponseStatus.OK, message: 'Usuário encontrado.', payload: user} as ResponseDefault);
       else  
-        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+        return res.status(404).json({status: ResponseStatus.NOT_FOUND, message: 'Usuário não encontrado.'} as ResponseDefault);
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
 
   }
@@ -232,25 +232,25 @@ export default class UserController{
     try{
 
       if(await User.findOne({ email: req.body.email}))
-        return res.status(422).json({status:'Error', message:"Email já cadastrado."} as ResponseDefault); 
+        return res.status(422).json({status:ResponseStatus.INVALID_INFO, message:"Email já cadastrado."} as ResponseDefault); 
 
       if(await User.findOne({ cpf: req.body.cpf}))
-        return res.status(422).json({status:'Error', message:"CPF já cadastrado."} as ResponseDefault);
+        return res.status(422).json({status:ResponseStatus.INVALID_INFO, message:"CPF já cadastrado."} as ResponseDefault);
       
       if(await User.findOne({ cell: req.body.cell}))
-        return res.status(422).json({status:'Error', message:"Número de celular já cadastrado."} as ResponseDefault);
+        return res.status(422).json({status:ResponseStatus.INVALID_INFO, message:"Número de celular já cadastrado."} as ResponseDefault);
 
       const validation = validateUserBeforeSave(req.body);
 
       if(validation.isValid){
         const user = await User.create(req.body);
-        return res.status(201).json({status: 'Ok', message: 'Usuário criado com sucesso.', payload: user} as ResponseDefault);
+        return res.status(201).json({status: ResponseStatus.OK, message: 'Usuário criado com sucesso.', payload: user} as ResponseDefault);
       }else{
-        return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
+        return res.status(422).json({status: ResponseStatus.INVALID_INFO, message: validation.message} as ResponseDefault);
       }
 
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
 
@@ -286,15 +286,15 @@ export default class UserController{
       if(validation.isValid){
         const user = await User.findByIdAndUpdate({_id: req.params.id}, req.body);
         if(user)
-          return res.status(200).json({status: 'Ok', message: 'Usuário atualizado com sucesso.'} as ResponseDefault);
+          return res.status(200).json({status: ResponseStatus.OK, message: 'Usuário atualizado com sucesso.'} as ResponseDefault);
         else
-         return res.status(404).json({status: 'Error', message: 'Usuário não encontrado.'} as ResponseDefault);
+         return res.status(404).json({status: ResponseStatus.ERROR, message: 'Usuário não encontrado.'} as ResponseDefault);
       }else{
-        return res.status(422).json({status:'Error', message: validation.message} as ResponseDefault);
+        return res.status(422).json({status: ResponseStatus.INVALID_INFO, message: validation.message} as ResponseDefault);
       }
 
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
 
@@ -315,12 +315,12 @@ export default class UserController{
       const user = await User.findByIdAndRemove({_id: req.params.id});
       
       if(user)
-        return res.status(200).json({status: 'Ok', message: 'Usuário deletado com sucesso.'} as ResponseDefault);
+        return res.status(200).json({status: ResponseStatus.OK, message: 'Usuário deletado com sucesso.'} as ResponseDefault);
       else  
-        return res.status(404).json({status: 'Ok', message: 'Usuário não encontrado.'} as ResponseDefault);
+        return res.status(404).json({status: ResponseStatus.OK, message: 'Usuário não encontrado.'} as ResponseDefault);
       
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
 
@@ -351,9 +351,9 @@ export default class UserController{
       if(!address){
         throw "Não foi possível consultar o CEP";
       }
-      return res.status(200).json({status: 'Ok', message: 'Endereço encontrado.', payload: address} as ResponseDefault);
+      return res.status(200).json({status: ResponseStatus.OK, message: 'Endereço encontrado.', payload: address} as ResponseDefault);
     }catch(e: any){
-      return res.status(500).json({status: 'Error', message: JSON.stringify(e)} as ResponseDefault);
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
 
