@@ -1,7 +1,7 @@
 # Pixel Backend
 
+# jest
 
-# jest 
 node <path-to-jest> -i <your-test-file> -c <jest-config> -t "<test-block-name>"
 
 <path-to-jest>:
@@ -16,19 +16,21 @@ jest -i validators.test.ts -t "test-date-validation"
 "testu": "jest -i UserController.test.ts -t \"test-controller-request-functions should-create-a-user\"",
 
 #helper links
-- https://petstore.swagger.io/v2/swagger.json
-parei no minuto 26 https://www.youtube.com/watch?v=WhFx2heoFrA
-para gerar swagger automaitcamente: https://www.npmjs.com/package/swagger-autogen#oauth2-example
 
+- https://petstore.swagger.io/v2/swagger.json
+  parei no minuto 26 https://www.youtube.com/watch?v=WhFx2heoFrA
+  para gerar swagger automaitcamente: https://www.npmjs.com/package/swagger-autogen#oauth2-example
 
 #example auth0 config ts file:
 const config = {
-    
+
     client_id:"xxxxxxxxxxxxxxxxxxxxxxxxxx",
     client_secret:"xx-x-xxx",
     audience:"https://dev-2glokavh.us.auth0.com/api/v2/",
     grant_type:"client_credentials"
-    
+
 }
 
 export default config;
+
+//get this on auth0 API test tab

@@ -13,123 +13,139 @@ const BankInfoSheme = new mongoose.Schema({
 });
 
 const PaymentInfoSchema = new mongoose.Schema({
-  cards:{
-    type: [CardsSchema]
-  }
+  cards: {
+    type: [CardsSchema],
+  },
 });
 
 const ReceiveInfoScheme = new mongoose.Schema({
   nickname: String,
   bankInfo: BankInfoSheme,
-  pixKey: String
-})
+  pixKey: String,
+});
 
-const AddressScheme =  new mongoose.Schema({
-  zipcode: String,
-  streeet: String,
-  number: String,
-  district: String,
-  city: String,
-  estate: String,
+const AddressScheme = new mongoose.Schema({
+  zipcode: {
+    type: String,
+    required: true,
+  },
+  streeet: {
+    type: String,
+    required: true,
+  },
+  number: {
+    type: String,
+    required: true,
+  },
+  district: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  estate: {
+    type: String,
+    required: true,
+  },
   complement: String,
-})
+});
 
 const UserSchema = new mongoose.Schema({
-    name:{
-      type: String,
-      required: true,
-    },
+  name: {
+    type: String,
+    required: true,
+  },
 
-    email: {
-      type: String,
-      unique: true, //nao permite valor repitido
-      required: true,
-      lowercase: true,
-    },
+  email: {
+    type: String,
+    unique: true, //nao permite valor repitido
+    required: true,
+    lowercase: true,
+  },
 
-    cpf:{
-      type: String,
-      unique: true,
-      required: true
-    },
+  cpf: {
+    type: String,
+    unique: true,
+    required: true,
+  },
 
-    cell:{
-      type: String,
-      unique: true,
-      required: true
-    },
+  cell: {
+    type: String,
+    unique: true,
+    required: true,
+  },
 
-    birthDate:{
-      type: Date,
-      required: true
-    },
+  birthDate: {
+    type: Date,
+    required: true,
+  },
 
-    saldo:{
-      type: Number
-    },
+  saldo: {
+    type: Number,
+  },
 
-    paymentInfo:{
-      type: PaymentInfoSchema,
-    },
+  paymentInfo: {
+    type: PaymentInfoSchema,
+  },
 
-    receiveInfo: {
-      type: ReceiveInfoScheme,
-    },
+  receiveInfo: {
+    type: ReceiveInfoScheme,
+  },
 
-    addressInfo: {
-      type: AddressScheme,
-      required: true
-    },
+  addressInfo: {
+    type: AddressScheme,
+    required: true,
+  },
 
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-export interface User{
-  name: string,
-  email: string,
-  cpf: string,
-  cell: string,
-  birthDate: string,
-  saldo?: number,
-  paymentInfo?: PaymentInfo,
-  receiveInfo?: ReceiveInfo,
-  addressInfo: AddressInfo,
+export interface User {
+  name: string;
+  email: string;
+  cpf: string;
+  cell: string;
+  birthDate: string;
+  saldo?: number;
+  paymentInfo?: PaymentInfo;
+  receiveInfo?: ReceiveInfo;
+  addressInfo: AddressInfo;
 }
 
-export interface PaymentInfo{
-  cards: Array<Card>
+export interface PaymentInfo {
+  cards: Array<Card>;
 }
 
-interface Card{
-  cardNumber: string,
-  cardName: string,
-  expirationDate: string,
+interface Card {
+  cardNumber: string;
+  cardName: string;
+  expirationDate: string;
 }
 
-export interface ReceiveInfo{
-  nickname: string,
-  bankInfo?: BankInfo,
-  pixKey?: string,
-
+export interface ReceiveInfo {
+  nickname: string;
+  bankInfo?: BankInfo;
+  pixKey?: string;
 }
-interface BankInfo{
-  bankName: string,
-  agency: string,
-  account: string,
-}
-
-export interface AddressInfo{
-  zipcode: string,
-  street: string,
-  number?: string,
-  district: string,
-  city: string,
-  estate: string,
-  complement?: string,
+interface BankInfo {
+  bankName: string;
+  agency: string;
+  account: string;
 }
 
+export interface AddressInfo {
+  zipcode: string;
+  street: string;
+  number?: string;
+  district: string;
+  city: string;
+  estate: string;
+  complement?: string;
+}
 
-export default mongoose.model("User", UserSchema); 
+export default mongoose.model("User", UserSchema);
