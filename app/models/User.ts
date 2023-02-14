@@ -29,7 +29,7 @@ const AddressScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
-  streeet: {
+  street: {
     type: String,
     required: true,
   },
@@ -45,7 +45,7 @@ const AddressScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
-  estate: {
+  state: {
     type: String,
     required: true,
   },
@@ -144,7 +144,7 @@ export interface AddressInfo {
   number?: string;
   district: string;
   city: string;
-  estate: string;
+  state: string;
   complement?: string;
 }
 
