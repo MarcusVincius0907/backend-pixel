@@ -1,123 +1,101 @@
-import { validateUserBeforeSave } from '../../../app/controllers/UserController';
+import { validateUserBeforeSave } from "../../../app/controllers/UserController";
 import request from "supertest";
 import app from "../../../app/index";
-import { token, user } from '../../../__mock__/user';
-import ResponseDefault from '../../../app/models/ResponseDefault';
-import User, {User as UserInterface} from '../../../app/models/User';
+import { token, user } from "../../../__mock__/user";
+import ResponseDefault from "../../../app/models/ResponseDefault";
+import User, { User as UserInterface } from "../../../app/models/User";
 
 //TODO jest does not recognize process.env
 
-describe("test user controller funtions", () => {
+//TODO config to test for every commit
 
-  
-
-  it('testing validateUserBeforeSave', () => {
+describe("test-user-controller-funtions", () => {
+  it("testing validateUserBeforeSave", () => {
     const expectedResp = {
       isValid: true,
-      message: "[]"
-    }
+      message: "[]",
+    };
     expect(validateUserBeforeSave(user)).toStrictEqual(expectedResp);
-  })
-
-
-})
+  });
+});
 
 describe("test-controller-request-functions", () => {
-
   it("should-create-a-user", async () => {
-
-    try{
-      await User.findOneAndDelete({email: user.email})
-    }catch(e){
+    try {
+      await User.findOneAndDelete({ email: user.email });
+    } catch (e) {
       console.log(e);
       expect(!!e).toBeFalsy();
     }
-    
+
     const resp = await request(app)
-    .post("/api/user/create")
-    .set('authorization',await token())
-    .send(user)
+      .post("/api/user/create")
+      .set("authorization", await token())
+      .send(user);
 
-    expect(resp.statusCode).toBe(201)
+    expect(resp.statusCode).toBe(201);
+  });
 
-  })
-
-  
-  it('should update the user', async () => {
-
-    const userCreated = await User.findOne({email: user.email})
+  it("should update the user", async () => {
+    const userCreated = await User.findOne({ email: user.email });
 
     expect(userCreated).toBeTruthy();
 
-    if(userCreated){
-
+    if (userCreated) {
       let objUpdated = {
         ...user,
-        name: 'Arlindo'
-      }
-      
+        name: "Arlindo",
+      };
+
       const resp = await request(app)
-      .put(`/api/user/${userCreated._id}`)
-      .set('authorization',await token())
-      .send(objUpdated)
-  
-      expect(resp.statusCode).toBe(200)
+        .put(`/api/user/${userCreated._id}`)
+        .set("authorization", await token())
+        .send(objUpdated);
 
+      expect(resp.statusCode).toBe(200);
     }
-    
+  });
 
-  })
-
-  it('should get a user', async () => {
-
-    const userCreated = await User.findOne({email: user.email})
+  it("should get a user", async () => {
+    const userCreated = await User.findOne({ email: user.email });
 
     expect(userCreated).toBeTruthy();
 
-    if(userCreated){
-           
+    if (userCreated) {
       const resp = await request(app)
-      .get(`/api/user/${userCreated._id}`)
-      .set('authorization',await token())
-  
-      expect(resp.statusCode).toBe(200)
+        .get(`/api/user/${userCreated._id}`)
+        .set("authorization", await token());
 
+      expect(resp.statusCode).toBe(200);
     }
+  });
 
-  })
-
-  it('should delete a user', async () => {
-    const userCreated = await User.findOne({email: user.email})
+  it("should delete a user", async () => {
+    const userCreated = await User.findOne({ email: user.email });
 
     expect(userCreated).toBeTruthy();
 
-    if(userCreated){
-           
+    if (userCreated) {
       const resp = await request(app)
-      .delete(`/api/user/${userCreated._id}`)
-      .set('authorization',await token())
-  
-      expect(resp.statusCode).toBe(200)
+        .delete(`/api/user/${userCreated._id}`)
+        .set("authorization", await token());
 
+      expect(resp.statusCode).toBe(200);
     }
-  })
+  });
 
-  it('should-consult-zipcode', async () => {
-    const zipcode = '05717200';
+  it("should-consult-zipcode", async () => {
+    const zipcode = "05717200";
 
-    try{
+    try {
       const resp = await request(app)
         .get(`/api/zipcode/${zipcode}`)
-        .set('authorization', await token());
-      
-      expect(resp.statusCode).toBe(200)
-    }catch(e){
+        .set("authorization", await token());
+
+      expect(resp.statusCode).toBe(200);
+    } catch (e) {
       console.log(e);
       expect(!!e).toBeFalsy();
     }
-  
-  })
-
-
-
-})
+  });
+});

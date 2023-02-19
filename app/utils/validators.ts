@@ -1,5 +1,10 @@
 import moment from "moment";
-import { PaymentInfo, ReceiveInfo, AddressInfo } from "../models/User";
+import {
+  PaymentInfo,
+  ReceiveInfo,
+  AddressInfo,
+  ReceiveInfoType,
+} from "../models/User";
 
 export function validateEmail(email: any) {
   return String(email)
@@ -106,11 +111,11 @@ export function validateReceiveInfo(receiveInfo: ReceiveInfo) {
 
   if (!required(receiveInfo.nickname)) return false;
 
-  if (receiveInfo.bankInfo) {
+  if (receiveInfo.type === ReceiveInfoType.BANK_TYPE && receiveInfo.bankInfo) {
     const { account, agency, bankName } = receiveInfo.bankInfo;
     if (!required(account) || !required(agency) || !required(bankName))
       return false;
-  } else {
+  } else if (receiveInfo.type === ReceiveInfoType.PIX_TYPE) {
     if (!required(receiveInfo.pixKey)) return false;
   }
 

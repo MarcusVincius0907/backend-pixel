@@ -22,6 +22,7 @@ const ReceiveInfoScheme = new mongoose.Schema({
   nickname: String,
   bankInfo: BankInfoSheme,
   pixKey: String,
+  type: String,
 });
 
 const AddressScheme = new mongoose.Schema({
@@ -131,6 +132,7 @@ export interface ReceiveInfo {
   nickname: string;
   bankInfo?: BankInfo;
   pixKey?: string;
+  type: ReceiveInfoType;
 }
 interface BankInfo {
   bankName: string;
@@ -146,6 +148,11 @@ export interface AddressInfo {
   city: string;
   state: string;
   complement?: string;
+}
+
+export enum ReceiveInfoType {
+  BANK_TYPE = "BANK_TYPE",
+  PIX_TYPE = "PIX_TYPE",
 }
 
 export default mongoose.model("User", UserSchema);

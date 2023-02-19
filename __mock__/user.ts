@@ -3,6 +3,7 @@ import {
   AddressInfo,
   PaymentInfo,
   ReceiveInfo,
+  ReceiveInfoType,
   User,
 } from "../app/models/User";
 
@@ -48,6 +49,7 @@ export const paymentInfo: PaymentInfo = {
 export const receiveInfo: ReceiveInfo = {
   nickname: "pix nubank",
   pixKey: "asdf@sdf.com",
+  type: ReceiveInfoType.PIX_TYPE,
 };
 
 export const user: User = {
