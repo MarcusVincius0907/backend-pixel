@@ -86,7 +86,7 @@ export function validateExpirationDate(value: string) {
   return true;
 }
 
-//if one card is invalid, all will be invalid
+//TODO fix: if one card is invalid, all will be invalid
 export function validatePaymentInfo(paymentInfo: PaymentInfo) {
   if (!paymentInfo) return false;
 
