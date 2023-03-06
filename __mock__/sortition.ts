@@ -11,7 +11,7 @@ export const validSortition = {
 } as ISortition
 
 export const invalidSortition = {
-  _id: 243,
+  _id: '243',
   name: '',
   date: '',
   idNFTSummary: '',

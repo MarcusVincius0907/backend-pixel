@@ -3,6 +3,7 @@ import ResponseDefault, { ResponseStatus } from "../models/ResponseDefault";
 import NFT, {NFTSummary ,IChunk, INFT, INFTMeasurements, IPixel, INFTSummary} from '../models/NFT';
 import { isValidDate, required } from "../utils/validators";
 import { v4 as uuidv4 } from 'uuid';
+import Sortition from "../models/Sortition";
 
 
 const AVAILABLE_CHUNKS: number = 8;
@@ -150,8 +151,22 @@ export default class NFTController{
         }   
     */
     try{
+      //TODO find a better way to do it like a left join (aggregate, lookup)
+      const sortitions = await Sortition.find();
       const nfts = await NFTSummary.find();
-      const nftIds = nfts.map(nft => ({id: nft._id, name: nft.name} as any))
+      let nftIds: any[] = [];
+
+      if(nfts.length > 0 && sortitions.length > 0){
+        const usedNFTIds = sortitions.map(sortition => sortition.idNFTSummary);
+        nfts.forEach(nft => {
+          if(!(usedNFTIds.find(used => nft._id.toString() === used  ))){
+            nftIds.push({name: nft.name, id: nft._id})
+          }
+        })
+      }else{
+        return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s) List Vazia.'} as ResponseDefault);
+      }
+      
       return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nftIds} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
