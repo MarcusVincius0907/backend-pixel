@@ -125,6 +125,38 @@ export default class NFTController{
       return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
   }
+
+  //TODO create a test for this method
+  async listNFTSummaryId(req: Request, res: Response){
+    // #swagger.tags = ['NFTs']
+    // #swagger.summary = 'Listar todos os ids dos NFTs'
+    // #swagger.security = [{"bearerAuth": []}]
+    /* #swagger.responses[200] = {
+            description: "NFT(s) encontrado(s).",
+            content: {
+                "application/json": {
+                    schema:{
+                      type: "array",
+                      items:{
+                        type: "string",
+                      }
+                    }
+                }           
+            }
+        }   
+    */
+    /* #swagger.responses[401] = {
+            description: "Requisição não autorizada.",
+        }   
+    */
+    try{
+      const nfts = await NFTSummary.find();
+      const nftIds = nfts.map(nft => ({id: nft._id, name: nft.name} as any))
+      return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nftIds} as ResponseDefault);
+    }catch(e: any){
+      return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
+    }
+  }
   
   async findById(req: Request, res: Response){
     // #swagger.tags = ['NFTs']
@@ -262,7 +294,7 @@ export default class NFTController{
           }
 
           await NFTSummary.findByIdAndUpdate({_id: req.params.id}, nFTSumReq);
-          
+
           return res.status(200).json({status: ResponseStatus.OK, message: 'NFT atualizado com sucesso.'} as ResponseDefault);
         }
         else

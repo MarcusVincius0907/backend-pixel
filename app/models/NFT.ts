@@ -61,7 +61,7 @@ const NFTSummarySchema = new mongoose.Schema({
 });
 
 export interface INFTSummary{
-  _id?: number,
+  _id?: string,
   name: string,
   themes: string,
   idNFT?: string,
@@ -69,19 +69,19 @@ export interface INFTSummary{
 }
 
 export interface INFT{
-  _id?: number,
+  _id?: string,
   chunks?: IChunk[],
   chunkSize: number,
 }
 
 export interface IChunk{
-  _id?: number,
+  _id?: string,
   position: number,
   pixels: IPixel[]
 }
 
 export interface IPixel{
-  _id?: number,
+  _id?: string,
   uuid: string,
   color: string,
   isAvailible: boolean,

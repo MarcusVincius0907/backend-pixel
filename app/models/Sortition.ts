@@ -13,7 +13,7 @@ const SortitionSchema = new mongoose.Schema({
 });
 
 export interface ISortition{
-  _id: number;
+  _id: string;
   name: string;
   date: string;
   idNFTSummary: string;

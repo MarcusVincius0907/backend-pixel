@@ -29,7 +29,9 @@
     },
     "/auth": {
       "get": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Obter token",
         "description": "",
         "parameters": [],
@@ -52,7 +54,9 @@
     },
     "/user": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Listar todos os usuários",
         "description": "",
         "parameters": [],
@@ -87,7 +91,9 @@
     },
     "/user/create": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Criar um usuário",
         "description": "",
         "parameters": [],
@@ -137,7 +143,9 @@
     },
     "/user/{id}": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Obter um usuário pelo id",
         "description": "",
         "parameters": [
@@ -179,7 +187,9 @@
         ]
       },
       "put": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Atualizar um usuário pelo id",
         "description": "",
         "parameters": [
@@ -231,7 +241,9 @@
         }
       },
       "delete": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Deletar um usuário pelo id",
         "description": "",
         "parameters": [
@@ -267,7 +279,9 @@
     },
     "/user/email": {
       "put": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Obter um usuário pelo email",
         "description": "",
         "parameters": [],
@@ -317,7 +331,9 @@
     },
     "/zipcode/{zipcode}": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Consultar endereço",
         "description": "",
         "parameters": [
@@ -358,7 +374,9 @@
     },
     "/sortition": {
       "get": {
-        "tags": ["Sortitions"],
+        "tags": [
+          "Sortitions"
+        ],
         "summary": "Listar todos os sorteios",
         "description": "",
         "parameters": [],
@@ -393,7 +411,9 @@
     },
     "/sortition/create": {
       "post": {
-        "tags": ["Sortitions"],
+        "tags": [
+          "Sortitions"
+        ],
         "summary": "Criar um sorteio",
         "description": "",
         "parameters": [],
@@ -443,7 +463,9 @@
     },
     "/sortition/{id}": {
       "put": {
-        "tags": ["Sortitions"],
+        "tags": [
+          "Sortitions"
+        ],
         "summary": "Atualizar um sorteio pelo id",
         "description": "",
         "parameters": [
@@ -495,7 +517,9 @@
         }
       },
       "delete": {
-        "tags": ["Sortitions"],
+        "tags": [
+          "Sortitions"
+        ],
         "summary": "Deletar um sorteio pelo id",
         "description": "",
         "parameters": [
@@ -531,7 +555,9 @@
     },
     "/nft": {
       "get": {
-        "tags": ["NFTs"],
+        "tags": [
+          "NFTs"
+        ],
         "summary": "Listar todos os NFTs resumidos",
         "description": "",
         "parameters": [],
@@ -564,9 +590,47 @@
         ]
       }
     },
+    "/nft/list/ids": {
+      "get": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Listar todos os ids dos NFTs",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "NFT(s) encontrado(s).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/nft/{id}": {
       "get": {
-        "tags": ["NFTs"],
+        "tags": [
+          "NFTs"
+        ],
         "summary": "Obter um NFT resumido pelo id",
         "description": "",
         "parameters": [
@@ -608,7 +672,9 @@
         ]
       },
       "put": {
-        "tags": ["NFTs"],
+        "tags": [
+          "NFTs"
+        ],
         "summary": "Atualizar um NFT pelo id",
         "description": "",
         "parameters": [
@@ -660,7 +726,9 @@
         }
       },
       "delete": {
-        "tags": ["NFTs"],
+        "tags": [
+          "NFTs"
+        ],
         "summary": "Deletar um NFT pelo id",
         "description": "",
         "parameters": [
@@ -696,7 +764,9 @@
     },
     "/nft/create": {
       "post": {
-        "tags": ["NFTs"],
+        "tags": [
+          "NFTs"
+        ],
         "summary": "Criar um NFT",
         "description": "",
         "parameters": [],
