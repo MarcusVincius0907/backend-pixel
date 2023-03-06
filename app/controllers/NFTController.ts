@@ -259,10 +259,10 @@ export default class NFTController{
             const nft = await NFT.create(newNFT);
 
             nFTSumReq.idNFT = nft.id;
-            
-            await NFTSummary.findByIdAndUpdate({_id: req.params.id}, nFTSumReq);
-
           }
+
+          await NFTSummary.findByIdAndUpdate({_id: req.params.id}, nFTSumReq);
+          
           return res.status(200).json({status: ResponseStatus.OK, message: 'NFT atualizado com sucesso.'} as ResponseDefault);
         }
         else

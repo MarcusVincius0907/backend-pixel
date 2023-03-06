@@ -19,6 +19,7 @@ async function getTokenAuth0(){
         })
 }
 
+//TODO remove this when the system is complete. Then the dev will need to get the token from FE
 export default class AuthController{
     async getToken(req: Request,res: Response){
         // #swagger.tags = ['Auth']
