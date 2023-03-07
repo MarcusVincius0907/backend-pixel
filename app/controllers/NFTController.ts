@@ -160,8 +160,11 @@ export default class NFTController{
             as: "nft_sortition",
           },
         },
-        ])
-      return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nft_sortition} as ResponseDefault);
+      ])
+      const nfts = nft_sortition.map(nft => ({
+        name: nft.name, id: nft._id, vinculated: nft.nft_sortition.length > 0  
+      } as any))
+      return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nfts} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
