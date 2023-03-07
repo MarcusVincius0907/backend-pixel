@@ -157,14 +157,17 @@ export default class NFTController{
       let nftIds: any[] = [];
 
       if(nfts.length > 0 && sortitions.length > 0){
-        const usedNFTIds = sortitions.map(sortition => sortition.idNFTSummary);
         nfts.forEach(nft => {
-          if(!(usedNFTIds.find(used => nft._id.toString() === used  ))){
-            nftIds.push({name: nft.name, id: nft._id})
+          let idInUse = false;
+          sortitions.forEach(sortition => {
+            if(sortition.idNFTSummary === nft._id.toString()){
+              idInUse = true;
+            }
+          })
+          if(!idInUse){
+            nftIds.push({ name: nft.name, id: nft._id })
           }
         })
-      }else{
-        return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s) List Vazia.'} as ResponseDefault);
       }
       
       return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nftIds} as ResponseDefault);
