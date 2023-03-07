@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { isObjectIdOrHexString } from "mongoose";
 
 const SortitionSchema = new mongoose.Schema({
   name: String,
   date: Date,
-  idNFTSummary: String,
+  idNFTSummary: mongoose.Schema.Types.ObjectId,
   reward: String,
   status: Boolean,
   createdAt: {

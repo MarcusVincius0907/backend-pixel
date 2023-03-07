@@ -151,26 +151,17 @@ export default class NFTController{
         }   
     */
     try{
-      //TODO find a better way to do it like a left join (aggregate, lookup)
-      const sortitions = await Sortition.find();
-      const nfts = await NFTSummary.find();
-      let nftIds: any[] = [];
-
-      if(nfts.length > 0 && sortitions.length > 0){
-        nfts.forEach(nft => {
-          let idInUse = false;
-          sortitions.forEach(sortition => {
-            if(sortition.idNFTSummary === nft._id.toString()){
-              idInUse = true;
-            }
-          })
-          if(!idInUse){
-            nftIds.push({ name: nft.name, id: nft._id })
-          }
-        })
-      }
-      
-      return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nftIds} as ResponseDefault);
+      const nft_sortition = await NFTSummary.aggregate([
+        {
+          $lookup: {
+            from: "sortitions",
+            localField: "_id",
+            foreignField: "idNFTSummary",
+            as: "nft_sortition",
+          },
+        },
+        ])
+      return res.status(200).json({status: ResponseStatus.OK, message: 'NFT(s) encontrado(s).', payload: nft_sortition} as ResponseDefault);
     }catch(e: any){
       return res.status(500).json({status: ResponseStatus.ERROR, message: JSON.stringify(e)} as ResponseDefault);
     }
