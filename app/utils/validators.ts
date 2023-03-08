@@ -151,3 +151,8 @@ export function isValidDate(value: any, checkIsAfter: boolean = false) {
 
   return true;
 }
+
+//TODO create a test for this
+export function arrayIsNotEmpty(arr: any[]){
+  return arr.length !== 0
+}
