@@ -3,6 +3,7 @@ import {
   AddressInfo,
   PaymentInfo,
   ReceiveInfo,
+  ReceiveInfoType
 } from "../../../app/models/User";
 import {
   validateEmail,
@@ -16,6 +17,7 @@ import {
   validateReceiveInfo,
   validateAddressInfo,
   isValidDate,
+  arrayIsNotEmpty,
 } from "../../../app/utils/validators";
 
 describe("testing validateEmail", () => {
@@ -126,9 +128,10 @@ describe("testing receive info validation", () => {
     const receiveInfo: ReceiveInfo = {
       nickname: "pix nubank",
       pixKey: "asdf@sdf.com",
+      type: ReceiveInfoType.PIX_TYPE
     };
 
-    expect(receiveInfo).toBeTruthy();
+    expect(validateReceiveInfo(receiveInfo)).toBeTruthy();
   });
 
   it("valid receive info object, with bank info", () => {
@@ -139,6 +142,7 @@ describe("testing receive info validation", () => {
         account: "123",
         agency: "123",
       },
+      type: ReceiveInfoType.BANK_TYPE
     };
 
     expect(validateReceiveInfo(receiveInfo)).toBeTruthy();
@@ -195,5 +199,13 @@ describe("test date validation", () => {
 });
 
 describe("test-array-validators", () => {
-  //TODO contiunue here
+  it("should-be-a-not-empty-array", () => {
+    const validArray: number[] = [1,2,3];
+    expect(arrayIsNotEmpty(validArray)).toBeTruthy();
+  })
+
+  it("should-be-a-empty-array", () =>{
+    const invalidArray: any[] = [];
+    expect(arrayIsNotEmpty(invalidArray)).toBeFalsy();
+  })
 })

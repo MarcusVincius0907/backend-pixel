@@ -111,6 +111,8 @@ export function validateReceiveInfo(receiveInfo: ReceiveInfo) {
 
   if (!required(receiveInfo.nickname)) return false;
 
+  if (!required(receiveInfo.type)) return false;
+
   if (receiveInfo.type === ReceiveInfoType.BANK_TYPE && receiveInfo.bankInfo) {
     const { account, agency, bankName } = receiveInfo.bankInfo;
     if (!required(account) || !required(agency) || !required(bankName))
@@ -152,7 +154,6 @@ export function isValidDate(value: any, checkIsAfter: boolean = false) {
   return true;
 }
 
-//TODO create a test for this
 export function arrayIsNotEmpty(arr: any[]){
-  return arr.length !== 0
+  return arr.length !== 0;
 }

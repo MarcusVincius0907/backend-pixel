@@ -1,5 +1,6 @@
 import express from 'express';
 import AuthController from './controllers/AuthController';
+import CartController from './controllers/CartController';
 import Controllers from './controllers/controller';
 import NFTController from './controllers/NFTController';
 import SortitionController from './controllers/SortitionController';
@@ -19,6 +20,7 @@ const userController = new UserController();
 const sortitionController = new SortitionController();
 const nFTController = new NFTController();
 const authController = new AuthController();
+const cartController = new CartController();
 
 routes.get("/test", checkJwt, controller.test);
 routes.get("/auth", authController.getToken);
@@ -45,6 +47,12 @@ routes.get("/nft/:id", checkJwt, nFTController.findById);
 routes.post("/nft/create", checkJwt, nFTController.create);
 routes.put("/nft/:id", checkJwt, nFTController.updateById);
 routes.delete("/nft/:id", checkJwt, nFTController.deleteById);
+
+//cart
+routes.get("/cart", checkJwt, cartController.list);
+routes.post("/cart/create", checkJwt, cartController.create);
+routes.put("/cart/:id", checkJwt, cartController.updateById);
+routes.delete("/cart/:id", checkJwt, cartController.deleteById);
 
 
 export default routes;

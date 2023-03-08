@@ -8,8 +8,6 @@ import { token } from '../../../__mock__/user';
 
 describe("test-cart-controller-funtions", () => {
 
-  
-
   it('testing-validateCartBeforeSave', () => {
     const expectedResp = {
       isValid: true,
@@ -19,12 +17,11 @@ describe("test-cart-controller-funtions", () => {
     expect(validateCartBeforeSave(invalidCart).isValid).toBeFalsy();
   })
 
-
 })
 
 describe("test-controller-request-functions", () => {
 
-  let cartId = null;
+  let cartId = '';
 
   it("should create", async () => {
 
@@ -57,15 +54,12 @@ describe("test-controller-request-functions", () => {
 
     if(objCreated){
 
-      let objUpdated = {
-        ...validCart,
-        pixelsAvailable: 10
-      }
+      validCart.pixelIds.pop()
       
       const resp = await request(app)
       .put(`/api/cart/${objCreated._id}`)
       .set('authorization', await token())
-      .send(objUpdated)
+      .send(validCart)
   
       expect(resp.statusCode).toBe(200)
 
