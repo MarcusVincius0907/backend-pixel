@@ -18,7 +18,10 @@ import {
   validateAddressInfo,
   isValidDate,
   arrayIsNotEmpty,
+  validateEnum,
 } from "../../../app/utils/validators";
+
+import { PaymentStatus } from '../../../app/models/Payment';
 
 describe("testing validateEmail", () => {
   it("test a valid email", () => {
@@ -207,5 +210,12 @@ describe("test-array-validators", () => {
   it("should-be-a-empty-array", () =>{
     const invalidArray: any[] = [];
     expect(arrayIsNotEmpty(invalidArray)).toBeFalsy();
+  })
+})
+
+describe("test-enum-validator", () => {
+  it('should-test-validateEnum', () => {
+    expect(validateEnum('PAID', PaymentStatus)).toBeTruthy();
+    expect(validateEnum('ABC', PaymentStatus)).toBeFalsy();
   })
 })

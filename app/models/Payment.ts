@@ -20,16 +20,16 @@ export interface IPayment{
 }
 
 export enum PaymentMethods {
-  creditCard = 'creditCard',
-  pix = 'pix',
+  CREDIT_CARD = 'CREDIT_CARD',
+  PIX = 'PIX',
   //Boleto
-  paymentSlip = 'paymentSlip'
+  PAYMENT_SLIP = 'PAYMENT_SLIP'
 }
 
 export enum PaymentStatus {
-  pending = 'pending' ,
-  paid = 'paid',
-  canceled = 'canceled' ,
+  PENDING = 'PENDING' ,
+  PAID = 'PAID',
+  CANCELED = 'CANCELED' ,
 }
 
 export default mongoose.model("Payment", PaymentSchema); 

@@ -157,3 +157,15 @@ export function isValidDate(value: any, checkIsAfter: boolean = false) {
 export function arrayIsNotEmpty(arr: any[]){
   return arr.length !== 0;
 }
+
+//TODO create a test for this
+export function validateEnum<T>(value: string, enumValue: T){
+  let isType = false;
+  for (const item in enumValue) {
+    if(item === value)
+      isType = true;
+  }
+
+  return isType;
+  
+}
