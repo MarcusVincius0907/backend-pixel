@@ -1,99 +1,104 @@
 import mongoose from "mongoose";
 
 const PixelSchema = new mongoose.Schema({
-  uuid:{
+  uuid: {
     required: true,
     unique: true,
-    type: String
+    type: String,
   },
   color: {
     required: true,
     type: String,
   },
-  isAvailible: Boolean
-  
+  position: {
+    required: true,
+    type: Number,
+  },
+  isAvailible: Boolean,
 });
 
 const ChunkSchema = new mongoose.Schema({
-  pixels:{
+  pixels: {
     required: true,
-    type: [PixelSchema]
+    type: [PixelSchema],
   },
-  position:{
+  position: {
     required: true,
-    type: Number
-  }
-  
+    type: Number,
+  },
 });
 
 const NFTSchema = new mongoose.Schema({
-  chunks:{
+  chunks: {
     required: true,
-    type: [ChunkSchema]
+    type: [ChunkSchema],
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const NFTSummarySchema = new mongoose.Schema({
-  name:{
+  name: {
     required: true,
-    type: String
+    type: String,
   },
-  themes:{
+  themes: {
     required: true,
-    type: String
+    type: String,
   },
-  idNFT:{
+  idNFT: {
     required: true,
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
   },
-  pixelQuantity:{
+  pixelQuantity: {
     required: true,
-    type: Number
+    type: Number,
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export interface INFTSummary{
-  _id?: string,
-  name: string,
-  themes: string,
-  idNFT?: string,
-  pixelQuantity: number
+export interface INFTSummary {
+  _id?: string;
+  name: string;
+  themes: string;
+  idNFT: string;
+  pixelQuantity: number;
 }
 
-export interface INFT{
-  _id?: string,
-  chunks?: IChunk[],
-  chunkSize: number,
+export interface INFT {
+  _id?: string;
+  chunks?: IChunk[];
+  chunkSize: number;
 }
 
-export interface IChunk{
-  _id?: string,
-  position: number,
-  pixels: IPixel[]
+export interface IChunk {
+  _id?: string;
+  position: number;
+  pixels: IPixel[];
 }
 
-export interface IPixel{
-  _id?: string,
-  uuid: string,
-  color: string,
-  isAvailible: boolean,
+export interface IPixel {
+  _id?: string;
+  uuid: string;
+  color: string;
+  position: number;
+  isAvailible: boolean;
 }
 
-export interface INFTMeasurements{
-  NFTWidth:number,
-  chunkWidth: number
+export interface INFTMeasurements {
+  NFTWidth: number;
+  chunkWidth: number;
+  chunk: number;
+  pixelQuantity: number;
 }
 
-const NFTSummary = mongoose.model("NFTSummary", NFTSummarySchema); 
+const NFTSummary = mongoose.model("NFTSummary", NFTSummarySchema);
 
-export {NFTSummary};
+export { NFTSummary };
 
-export default mongoose.model("NFT", NFTSchema); 
+export default mongoose.model("NFT", NFTSchema);

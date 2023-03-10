@@ -409,17 +409,26 @@
         ]
       }
     },
-    "/sortition/create": {
-      "post": {
+    "/sortition/{id}": {
+      "get": {
         "tags": [
           "Sortitions"
         ],
-        "summary": "Criar um sorteio",
+        "summary": "Buscar pelo id",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
-          "201": {
-            "description": "Sorteio criado com sucesso.",
+          "200": {
+            "description": "Sorteio(s) encontrado(s).",
             "content": {
               "application/json": {
                 "schema": {
@@ -432,9 +441,6 @@
           "401": {
             "description": "Requisição não autorizada."
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -443,25 +449,8 @@
           {
             "bearerAuth": []
           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Sortition"
-              },
-              "examples": {
-                "Sortition": {
-                  "$ref": "#/components/examples/Sortition"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sortition/{id}": {
+        ]
+      },
       "put": {
         "tags": [
           "Sortitions"
@@ -553,6 +542,58 @@
         ]
       }
     },
+    "/sortition/create": {
+      "post": {
+        "tags": [
+          "Sortitions"
+        ],
+        "summary": "Criar um sorteio",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Sorteio criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Sortition"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sortition"
+              },
+              "examples": {
+                "Sortition": {
+                  "$ref": "#/components/examples/Sortition"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/nft": {
       "get": {
         "tags": [
@@ -614,6 +655,51 @@
           },
           "401": {
             "description": "Requisição não autorizada."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/nft/measure/{id}": {
+      "get": {
+        "tags": [
+          "NFTs"
+        ],
+        "summary": "Buscar informações iniciais para renderizar o NFT",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados gerados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"

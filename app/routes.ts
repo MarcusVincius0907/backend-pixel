@@ -1,17 +1,17 @@
-import express from 'express';
-import AuthController from './controllers/AuthController';
-import CartController from './controllers/CartController';
-import Controllers from './controllers/controller';
-import NFTController from './controllers/NFTController';
-import SortitionController from './controllers/SortitionController';
-import UserController from './controllers/UserController';
+import express from "express";
+import AuthController from "./controllers/AuthController";
+import CartController from "./controllers/CartController";
+import Controllers from "./controllers/controller";
+import NFTController from "./controllers/NFTController";
+import SortitionController from "./controllers/SortitionController";
+import UserController from "./controllers/UserController";
 
 //Auth0
-const { auth } = require('express-oauth2-jwt-bearer');
+const { auth } = require("express-oauth2-jwt-bearer");
 const checkJwt = auth({
-  audience: 'https://dev-2glokavh.us.auth0.com/api/v2/',
+  audience: "https://dev-2glokavh.us.auth0.com/api/v2/",
   issuerBaseURL: `https://dev-2glokavh.us.auth0.com`,
-})
+});
 
 const routes = express.Router();
 
@@ -36,6 +36,7 @@ routes.get("/zipcode/:zipcode", userController.consultZipcode);
 
 //sortition
 routes.get("/sortition", checkJwt, sortitionController.list);
+routes.get("/sortition/:id", checkJwt, sortitionController.getById);
 routes.post("/sortition/create", checkJwt, sortitionController.create);
 routes.put("/sortition/:id", checkJwt, sortitionController.updateById);
 routes.delete("/sortition/:id", checkJwt, sortitionController.deleteById);
@@ -43,16 +44,15 @@ routes.delete("/sortition/:id", checkJwt, sortitionController.deleteById);
 //NFT
 routes.get("/nft", checkJwt, nFTController.list);
 routes.get("/nft/list/ids", checkJwt, nFTController.listNFTSummaryId);
+routes.get("/nft/measure/:id", checkJwt, nFTController.getNFTMeasurements);
 routes.get("/nft/:id", checkJwt, nFTController.findById);
 routes.post("/nft/create", checkJwt, nFTController.create);
 routes.put("/nft/:id", checkJwt, nFTController.updateById);
 routes.delete("/nft/:id", checkJwt, nFTController.deleteById);
-
 //cart
 routes.get("/cart", checkJwt, cartController.list);
 routes.post("/cart/create", checkJwt, cartController.create);
 routes.put("/cart/:id", checkJwt, cartController.updateById);
 routes.delete("/cart/:id", checkJwt, cartController.deleteById);
-
 
 export default routes;
