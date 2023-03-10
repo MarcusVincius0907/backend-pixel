@@ -93,8 +93,7 @@ export interface IPixel {
 export interface INFTMeasurements {
   NFTWidth: number;
   chunkWidth: number;
-  chunk: number;
-  pixelQuantity: number;
+  nft: INFT;
 }
 
 const NFTSummary = mongoose.model("NFTSummary", NFTSummarySchema);

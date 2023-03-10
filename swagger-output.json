@@ -667,7 +667,7 @@
         ]
       }
     },
-    "/nft/measure/{id}": {
+    "/nft/measure/{id}/{pixelSize}": {
       "get": {
         "tags": [
           "NFTs"
@@ -677,6 +677,14 @@
         "parameters": [
           {
             "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pixelSize",
             "in": "path",
             "required": true,
             "schema": {

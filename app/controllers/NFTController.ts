@@ -75,8 +75,6 @@ export function calculateNFTMeasurements(
   return {
     NFTWidth,
     chunkWidth,
-    chunk: chunkSize,
-    pixelQuantity: calculatePixelsQuantity(chunkSize),
   } as INFTMeasurements;
 }
 
@@ -235,15 +233,24 @@ export default class NFTController {
         const nftSummary = await NFTSummary.findOne({ _id: req.params.id });
 
         if (nftSummary) {
-          const nftMeasurements = calculateNFTMeasurements(
-            nftSummary?.pixelQuantity
-          );
+          const nft = await NFT.findOne({ _id: nftSummary.idNFT });
 
-          return res.status(200).json({
-            status: ResponseStatus.OK,
-            message: "Dados encontrados",
-            payload: nftMeasurements,
-          } as ResponseDefault);
+          if (nft) {
+            const nftMeasurements = calculateNFTMeasurements(
+              nftSummary?.pixelQuantity,
+              req.params?.pixelSize ? Number(req.params.pixelSize) : undefined
+            );
+
+            nftMeasurements.nft = nft as any;
+            // this is for showing nft image
+            nftMeasurements.nft?.chunks?.splice(4, 0, { position: -1 } as any);
+
+            return res.status(200).json({
+              status: ResponseStatus.OK,
+              message: "Dados encontrados",
+              payload: nftMeasurements,
+            } as ResponseDefault);
+          }
         }
       }
 

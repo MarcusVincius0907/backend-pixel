@@ -44,7 +44,11 @@ routes.delete("/sortition/:id", checkJwt, sortitionController.deleteById);
 //NFT
 routes.get("/nft", checkJwt, nFTController.list);
 routes.get("/nft/list/ids", checkJwt, nFTController.listNFTSummaryId);
-routes.get("/nft/measure/:id", checkJwt, nFTController.getNFTMeasurements);
+routes.get(
+  "/nft/measure/:id/:pixelSize",
+  checkJwt,
+  nFTController.getNFTMeasurements
+);
 routes.get("/nft/:id", checkJwt, nFTController.findById);
 routes.post("/nft/create", checkJwt, nFTController.create);
 routes.put("/nft/:id", checkJwt, nFTController.updateById);
