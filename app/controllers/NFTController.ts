@@ -245,6 +245,8 @@ export default class NFTController {
             // this is for showing nft image
             nftMeasurements.nft?.chunks?.splice(4, 0, { position: -1 } as any);
 
+            nftMeasurements.themes = nftSummary.themes;
+
             return res.status(200).json({
               status: ResponseStatus.OK,
               message: "Dados encontrados",

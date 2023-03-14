@@ -93,6 +93,7 @@ export interface IPixel {
 export interface INFTMeasurements {
   NFTWidth: number;
   chunkWidth: number;
+  themes: string;
   nft: INFT;
 }
 
