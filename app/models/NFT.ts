@@ -14,6 +14,10 @@ const PixelSchema = new mongoose.Schema({
     required: true,
     type: Number,
   },
+  chunkPosition: {
+    required: true,
+    type: Number,
+  },
   isAvailible: Boolean,
 });
 
@@ -87,6 +91,7 @@ export interface IPixel {
   uuid: string;
   color: string;
   position: number;
+  chunkPosition: number;
   isAvailible: boolean;
 }
 
@@ -99,6 +104,6 @@ export interface INFTMeasurements {
 
 const NFTSummary = mongoose.model("NFTSummary", NFTSummarySchema);
 
-export { NFTSummary };
+export { NFTSummary, PixelSchema };
 
 export default mongoose.model("NFT", NFTSchema);

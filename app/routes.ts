@@ -55,6 +55,7 @@ routes.put("/nft/:id", checkJwt, nFTController.updateById);
 routes.delete("/nft/:id", checkJwt, nFTController.deleteById);
 //cart
 routes.get("/cart", checkJwt, cartController.list);
+routes.get("/cart/user/:userId", checkJwt, cartController.getByUserId);
 routes.post("/cart/create", checkJwt, cartController.create);
 routes.put("/cart/:id", checkJwt, cartController.updateById);
 routes.delete("/cart/:id", checkJwt, cartController.deleteById);

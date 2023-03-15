@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
+import { IPixel, PixelSchema } from "./NFT";
 
 const CartSchema = new mongoose.Schema({
-  pixelIds: [mongoose.Schema.Types.ObjectId],
+  pixels: [PixelSchema],
+  userId: mongoose.Schema.Types.ObjectId,
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export interface ICart{
+export interface ICart {
   _id?: string;
-  pixelIds: Array<string>
+  pixels: Array<IPixel>;
+  userId: string;
 }
 
-export default mongoose.model("Cart", CartSchema); 
+export default mongoose.model("Cart", CartSchema);

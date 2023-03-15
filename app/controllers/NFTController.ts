@@ -100,6 +100,7 @@ export function createNFT(chunkSize: number) {
         color: "#FFFFFF",
         isAvailible: true,
         position: j,
+        chunkPosition: i,
       } as IPixel);
     }
 
@@ -242,8 +243,6 @@ export default class NFTController {
             );
 
             nftMeasurements.nft = nft as any;
-            // this is for showing nft image
-            nftMeasurements.nft?.chunks?.splice(4, 0, { position: -1 } as any);
 
             nftMeasurements.themes = nftSummary.themes;
 
