@@ -4,6 +4,7 @@ import { IPixel, PixelSchema } from "./NFT";
 const CartSchema = new mongoose.Schema({
   pixels: [PixelSchema],
   userId: mongoose.Schema.Types.ObjectId,
+  sortitionId: mongoose.Schema.Types.ObjectId,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -12,6 +13,7 @@ const CartSchema = new mongoose.Schema({
 
 export interface ICart {
   _id?: string;
+  sortitionId: string;
   pixels: Array<IPixel>;
   userId: string;
 }

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import ResponseDefault, { ResponseStatus } from "../models/ResponseDefault";
 import Cart, { ICart } from "../models/Cart";
 import { arrayIsNotEmpty } from "../utils/validators";
+import { IPixel } from "../models/NFT";
 
 export function validateCartBeforeSave(cart: ICart) {
   try {
@@ -83,14 +84,26 @@ export default class CartController {
         }   
     */
     try {
-      if (req.params.userId) {
+      if (req.params.userId && req.params.sortitionId) {
         const cart = await Cart.findOne({ userId: req.params.userId });
         if (cart) {
-          return res.status(200).json({
-            status: ResponseStatus.OK,
-            message: "Carrinho encontrado",
-            payload: cart,
-          } as ResponseDefault);
+          if (`${cart.sortitionId}` === req.params.sortitionId) {
+            return res.status(200).json({
+              status: ResponseStatus.OK,
+              message: "Carrinho encontrado",
+              payload: cart,
+            } as ResponseDefault);
+          } else {
+            const newCart = {
+              ...cart,
+              sortitionId: req.params.sortitionId,
+            };
+            return res.status(200).json({
+              status: ResponseStatus.OK,
+              message: "Carrinho encontrado",
+              payload: newCart,
+            } as ResponseDefault);
+          }
         }
       }
       return res.status(404).json({
