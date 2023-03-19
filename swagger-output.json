@@ -945,6 +945,59 @@
         ]
       }
     },
+    "/cart/user/{userId}/{sortitionId}": {
+      "get": {
+        "tags": [
+          "Carts"
+        ],
+        "summary": "Buscar carrinho de um usuario",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortitionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrinhos(s) encontrado(s).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/cart/create": {
       "post": {
         "tags": [
@@ -1087,6 +1140,67 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/checkout/{cartId}": {
+      "post": {
+        "tags": [
+          "Checkout"
+        ],
+        "summary": "Finalizar pedido",
+        "description": "",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido finalizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Pedido finalizado com sucesso",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     }
   },

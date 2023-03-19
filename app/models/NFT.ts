@@ -76,7 +76,7 @@ export interface INFTSummary {
 
 export interface INFT {
   _id?: string;
-  chunks?: IChunk[];
+  chunks: IChunk[];
   chunkSize: number;
 }
 
