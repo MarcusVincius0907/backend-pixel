@@ -1,14 +1,33 @@
 import { Request, Response } from "express";
 import Cart, { ICart } from "../models/Cart";
-import { ICheckoutResponse } from "../models/Checkout";
+import { ICheckoutRequest, ICheckoutResponse } from "../models/Checkout";
 import NFT, { INFT, INFTSummary, IPixel, NFTSummary } from "../models/NFT";
 import ResponseDefault, { ResponseStatus } from "../models/ResponseDefault";
 import Sortition from "../models/Sortition";
 import Payment, { IPayment, PaymentStatus } from "../models/Payment";
 import Order, { IOrder } from "../models/Order";
+import { required } from "../utils/validators";
 
 //TODO implement when checkout logic is complete
-export function validateCheckoutData() {}
+export function validateSortitionBeforeSave(checkoutRequest: ICheckoutRequest) {
+  try {
+    let isValid = true;
+    let message = [];
+
+    if (!required(checkoutRequest.paymentMethod)) {
+      isValid = false;
+      message.push("Metodo de pagamento é requerido");
+    }
+
+    return { isValid, message: JSON.stringify(message) };
+  } catch (e) {
+    return {
+      isValid: false,
+      message:
+        "Erro genérico no objeto do sorteio. Verifique se todos os campos estão preenchidos",
+    };
+  }
+}
 
 //TODO create test for this
 export default class CheckoutController {
