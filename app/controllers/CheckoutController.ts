@@ -9,7 +9,7 @@ import Order, { IOrder } from "../models/Order";
 import { required } from "../utils/validators";
 
 //TODO implement when checkout logic is complete
-export function validateSortitionBeforeSave(checkoutRequest: ICheckoutRequest) {
+export function validateCheckoutBeforeSave(checkoutRequest: ICheckoutRequest) {
   try {
     let isValid = true;
     let message = [];
@@ -76,7 +76,9 @@ export default class CheckoutController {
       /* amount: number,
       paymentMethod: PaymentMethods,
        */
-      if (req.params.cartId) {
+
+      const validation = validateCheckoutBeforeSave(req.body);
+      if (validation.isValid && req.params.cartId) {
         const cart: ICart | null = await Cart.findOne({
           _id: req.params.cartId,
         });
@@ -150,9 +152,9 @@ export default class CheckoutController {
           }
         }
       } else {
-        return res.status(404).json({
-          status: ResponseStatus.NOT_FOUND,
-          message: "Carrinho não encontrado",
+        return res.status(422).json({
+          status: ResponseStatus.INVALID_INFO,
+          message: validation.message,
         } as ResponseDefault);
       }
     } catch (e: any) {
