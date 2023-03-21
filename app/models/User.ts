@@ -100,6 +100,12 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 
+  accessType: {
+    type: String,
+    enum: ["admin", "common"],
+    default: "common",
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -116,6 +122,7 @@ export interface User {
   paymentInfo?: PaymentInfo;
   receiveInfo?: ReceiveInfo;
   addressInfo: AddressInfo;
+  accessType: AccessType;
 }
 
 export interface PaymentInfo {
@@ -154,5 +161,7 @@ export enum ReceiveInfoType {
   BANK_TYPE = "BANK_TYPE",
   PIX_TYPE = "PIX_TYPE",
 }
+
+export type AccessType = "admin" | "common";
 
 export default mongoose.model("User", UserSchema);

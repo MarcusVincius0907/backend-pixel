@@ -32,7 +32,7 @@ export default class MyPixelController {
         const order_sortition: any[] = await Order.aggregate([
           {
             $match: {
-              userId: new ObjectId("63fb5a0edbd501c3bd3da1e9"),
+              userId: new ObjectId(req.params.userId),
             },
           },
           {
