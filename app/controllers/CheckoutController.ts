@@ -132,6 +132,7 @@ export default class CheckoutController {
                     userId: cart.userId,
                     paymentId: `${createdPayment._id}`,
                     orderItem: {
+                      sortitionId: cart.sortitionId,
                       pixels: checkoutResp.availablePixels,
                     },
                   };

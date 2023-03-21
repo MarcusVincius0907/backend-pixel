@@ -1000,54 +1000,9 @@
     },
     "/cart/create": {
       "post": {
-        "tags": [
-          "Carts"
-        ],
-        "summary": "Criar um carrinho",
         "description": "",
         "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Carrinho criado com sucesso.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Cart"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Requisição não autorizada."
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Cart"
-              },
-              "examples": {
-                "Cart": {
-                  "$ref": "#/components/examples/Cart"
-                }
-              }
-            }
-          }
-        }
+        "responses": {}
       }
     },
     "/cart/{id}": {
@@ -1179,8 +1134,8 @@
           "401": {
             "description": "Requisição não autorizada."
           },
-          "404": {
-            "description": "Not Found"
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1201,6 +1156,51 @@
             }
           }
         }
+      }
+    },
+    "/my-pixel/{userId}": {
+      "get": {
+        "tags": [
+          "MyPixel"
+        ],
+        "summary": "Listar os pixels de um usuário",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pixels encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requisição não autorizada."
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },

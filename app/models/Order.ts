@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { IPixel, PixelSchema } from "./NFT";
 
 const OrderItemSchema = new mongoose.Schema({
+  sortitionId: mongoose.Schema.Types.ObjectId,
   pixels: [PixelSchema],
   createdAt: {
     type: Date,
@@ -27,6 +28,7 @@ export interface IOrder {
 }
 
 export interface IOrderItem {
+  sortitionId: string;
   pixels: Array<IPixel>;
 }
 

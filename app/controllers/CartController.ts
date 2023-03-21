@@ -95,13 +95,19 @@ export default class CartController {
             } as ResponseDefault);
           } else {
             const newCart = {
-              ...cart,
               sortitionId: req.params.sortitionId,
+              pixels: [],
+              userId: cart.userId,
             };
+
+            await Cart.findByIdAndRemove({ _id: cart._id });
+
+            const createdCart = await Cart.create(newCart);
+
             return res.status(200).json({
               status: ResponseStatus.OK,
               message: "Carrinho encontrado",
-              payload: newCart,
+              payload: createdCart,
             } as ResponseDefault);
           }
         }

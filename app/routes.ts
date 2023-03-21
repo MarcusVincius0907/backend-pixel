@@ -3,6 +3,7 @@ import AuthController from "./controllers/AuthController";
 import CartController from "./controllers/CartController";
 import CheckoutController from "./controllers/CheckoutController";
 import Controllers from "./controllers/controller";
+import MyPixelController from "./controllers/MyPixelController";
 import NFTController from "./controllers/NFTController";
 import SortitionController from "./controllers/SortitionController";
 import UserController from "./controllers/UserController";
@@ -23,6 +24,7 @@ const nFTController = new NFTController();
 const authController = new AuthController();
 const cartController = new CartController();
 const checkoutController = new CheckoutController();
+const myPixelController = new MyPixelController();
 
 routes.get("/test", checkJwt, controller.test);
 routes.get("/auth", authController.getToken);
@@ -68,5 +70,8 @@ routes.delete("/cart/:id", checkJwt, cartController.deleteById);
 
 //checkout
 routes.post("/checkout/:cartId", checkJwt, checkoutController.create);
+
+//my pixel
+routes.get("/my-pixel/:userId", checkJwt, myPixelController.list);
 
 export default routes;
