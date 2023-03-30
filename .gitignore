@@ -1,4 +1,3 @@
 node_modules
 .vscode
 auth0.config.ts
-build
