@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const PixelSchema = new mongoose.Schema({
   uuid: {
     required: true,
-    unique: true,
     type: String,
   },
   color: {
