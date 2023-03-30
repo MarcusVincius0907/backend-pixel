@@ -1,6 +1,6 @@
-import app from './index';
-const PORT = process.env.PORT || 3000;
+import app from "./index";
+const API_PORT = process.env.API_PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Listening at http://localhost:${PORT}`);
+app.listen(API_PORT, () => {
+  console.log(`Listening at http://localhost:${API_PORT}`);
 });

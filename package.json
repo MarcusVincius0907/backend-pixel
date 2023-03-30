@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  
   "scripts": {
     "dev": "nodemon ./app/server.ts",
-    "start": "",
+    "start": "node ./build/app/server.js",
     "test": "jest",
     "testu": "jest -i SortitionController.test.ts -t \"test-controller-request-functions\" ",
     "tsc": "tsc",
-    "sw":"ts-node ./swagger.ts"
+    "sw": "ts-node ./swagger.ts"
   },
   "repository": {
     "type": "git",
