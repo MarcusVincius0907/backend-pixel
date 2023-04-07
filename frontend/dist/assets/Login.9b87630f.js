@@ -1,1 +1,0 @@
-import{_ as t,c as e,o as a}from"./index.f1c54180.js";const o={name:"login",async mounted(){this.$auth&&await this.$auth.loginWithRedirect()}};function n(c,i,r,s,_,p){return a(),e("div")}var f=t(o,[["render",n]]);export{f as default};
