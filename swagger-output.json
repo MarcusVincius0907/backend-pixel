@@ -13,6 +13,10 @@
     {
       "url": "http://localhost:3000/api",
       "description": "dev"
+    },
+    {
+      "url": "https://pixel-api.marcusleitedev/api",
+      "description": "prod"
     }
   ],
   "paths": {
@@ -29,9 +33,7 @@
     },
     "/auth": {
       "get": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Obter token",
         "description": "",
         "parameters": [],
@@ -54,9 +56,7 @@
     },
     "/user": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Listar todos os usuários",
         "description": "",
         "parameters": [],
@@ -91,9 +91,7 @@
     },
     "/user/create": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Criar um usuário",
         "description": "",
         "parameters": [],
@@ -143,9 +141,7 @@
     },
     "/user/{id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Obter um usuário pelo id",
         "description": "",
         "parameters": [
@@ -187,9 +183,7 @@
         ]
       },
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Atualizar um usuário pelo id",
         "description": "",
         "parameters": [
@@ -241,9 +235,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Deletar um usuário pelo id",
         "description": "",
         "parameters": [
@@ -279,9 +271,7 @@
     },
     "/user/email": {
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Obter um usuário pelo email",
         "description": "",
         "parameters": [],
@@ -331,9 +321,7 @@
     },
     "/zipcode/{zipcode}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Consultar endereço",
         "description": "",
         "parameters": [
@@ -374,9 +362,7 @@
     },
     "/sortition": {
       "get": {
-        "tags": [
-          "Sortitions"
-        ],
+        "tags": ["Sortitions"],
         "summary": "Listar todos os sorteios",
         "description": "",
         "parameters": [],
@@ -411,9 +397,7 @@
     },
     "/sortition/{id}": {
       "get": {
-        "tags": [
-          "Sortitions"
-        ],
+        "tags": ["Sortitions"],
         "summary": "Buscar pelo id",
         "description": "",
         "parameters": [
@@ -452,9 +436,7 @@
         ]
       },
       "put": {
-        "tags": [
-          "Sortitions"
-        ],
+        "tags": ["Sortitions"],
         "summary": "Atualizar um sorteio pelo id",
         "description": "",
         "parameters": [
@@ -506,9 +488,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Sortitions"
-        ],
+        "tags": ["Sortitions"],
         "summary": "Deletar um sorteio pelo id",
         "description": "",
         "parameters": [
@@ -544,9 +524,7 @@
     },
     "/sortition/create": {
       "post": {
-        "tags": [
-          "Sortitions"
-        ],
+        "tags": ["Sortitions"],
         "summary": "Criar um sorteio",
         "description": "",
         "parameters": [],
@@ -596,9 +574,7 @@
     },
     "/nft": {
       "get": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Listar todos os NFTs resumidos",
         "description": "",
         "parameters": [],
@@ -633,9 +609,7 @@
     },
     "/nft/list/ids": {
       "get": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Listar todos os ids dos NFTs",
         "description": "",
         "parameters": [],
@@ -669,9 +643,7 @@
     },
     "/nft/measure/{id}/{pixelSize}": {
       "get": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Buscar informações iniciais para renderizar o NFT",
         "description": "",
         "parameters": [
@@ -722,9 +694,7 @@
     },
     "/nft/{id}": {
       "get": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Obter um NFT resumido pelo id",
         "description": "",
         "parameters": [
@@ -766,9 +736,7 @@
         ]
       },
       "put": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Atualizar um NFT pelo id",
         "description": "",
         "parameters": [
@@ -820,9 +788,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Deletar um NFT pelo id",
         "description": "",
         "parameters": [
@@ -858,9 +824,7 @@
     },
     "/nft/create": {
       "post": {
-        "tags": [
-          "NFTs"
-        ],
+        "tags": ["NFTs"],
         "summary": "Criar um NFT",
         "description": "",
         "parameters": [],
@@ -910,9 +874,7 @@
     },
     "/cart": {
       "get": {
-        "tags": [
-          "Carts"
-        ],
+        "tags": ["Carts"],
         "summary": "Listar todos os carrinhos",
         "description": "",
         "parameters": [],
@@ -947,9 +909,7 @@
     },
     "/cart/user/{userId}/{sortitionId}": {
       "get": {
-        "tags": [
-          "Carts"
-        ],
+        "tags": ["Carts"],
         "summary": "Buscar carrinho de um usuario",
         "description": "",
         "parameters": [
@@ -1007,9 +967,7 @@
     },
     "/cart/{id}": {
       "put": {
-        "tags": [
-          "Carts"
-        ],
+        "tags": ["Carts"],
         "summary": "Atualizar um carrinho pelo id",
         "description": "",
         "parameters": [
@@ -1061,9 +1019,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Carts"
-        ],
+        "tags": ["Carts"],
         "summary": "Deletar um carrinho pelo id",
         "description": "",
         "parameters": [
@@ -1099,9 +1055,7 @@
     },
     "/checkout/{cartId}": {
       "post": {
-        "tags": [
-          "Checkout"
-        ],
+        "tags": ["Checkout"],
         "summary": "Finalizar pedido",
         "description": "",
         "parameters": [
@@ -1160,9 +1114,7 @@
     },
     "/my-pixel/{userId}": {
       "get": {
-        "tags": [
-          "MyPixel"
-        ],
+        "tags": ["MyPixel"],
         "summary": "Listar os pixels de um usuário",
         "description": "",
         "parameters": [
