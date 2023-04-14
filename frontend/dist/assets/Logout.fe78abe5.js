@@ -1,1 +1,0 @@
-import{_ as o,d as e,c as t,o as n}from"./index.ff1e2e34.js";const a=e({name:"logout",mounted(){this.$auth.logout(),this.$router.push({name:"login"})}});function r(s,c,u,p,i,_){return n(),t("div")}var m=o(a,[["render",r]]);export{m as default};
