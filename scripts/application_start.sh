@@ -13,4 +13,4 @@ npm install
 npm run tsc
 
 #start our node app
-pm2 restart pixel-api
+/usr/local/bin/pm2 restart pixel-api
