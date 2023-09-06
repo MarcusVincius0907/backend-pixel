@@ -29,6 +29,8 @@ const config = {
 
 }
 
+you can find this file (auth0.config.ts) in google drive -> projeto pixel
+
 export default config;
 
 //get this on auth0 API test tab
