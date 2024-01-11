@@ -1,0 +1,28 @@
+name: Deploy to Hostinger Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: Hostinger Env
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_SSH_HOST }}
+          username: ${{ secrets.SERVER_SSH_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
+          script: |
+            cd /home/projects/pixel/backend-pixel
+            git pull origin main
+            docker-compose down
+            docker-compose up --build -d

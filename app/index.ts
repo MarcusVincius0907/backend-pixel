@@ -1,22 +1,22 @@
-require('dotenv').config()
-import express from 'express';
-import routes  from './routes';
-import mongoose from 'mongoose';
-import swaggerUi from 'swagger-ui-express';
-import swaggerJson from '../swagger-output.json';
+require("dotenv").config();
+import express from "express";
+import routes from "./routes";
+import mongoose from "mongoose";
+import swaggerUi from "swagger-ui-express";
+import swaggerJson from "../swagger-output.json";
 
 const cors = require("cors");
-const app = express()
+const app = express();
 
 //app.use("/static", express.static(__dirname +'/frontend/static'));
-import errorHandler from './middlewares/errorHandler.middleware';
+import errorHandler from "./middlewares/errorHandler.middleware";
 
 // conectando com banco
-mongoose.connect('mongodb+srv://marcus:marcus123@cluster0.wyjjj.mongodb.net/?retryWrites=true&w=majority' );
+mongoose.connect(`${process.env.MONGO_URL}/pixel`);
 
-app.get('/', (req, res) => {
-  res.send('Pixel API is working.')
-})
+app.get("/", (req, res) => {
+  res.send("Pixel API is working.");
+});
 
 //parar poder receber arquivos json
 app.use(express.json());
@@ -25,15 +25,12 @@ app.use(express.json());
 app.use(cors());
 
 //swagger config
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJson))
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJson));
 
 //centralizando todas as rotas
-app.use("/api", routes)
+app.use("/api", routes);
 
 //custom error
 app.use(errorHandler);
 
 export default app;
-
-
-
