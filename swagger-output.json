@@ -15,7 +15,7 @@
       "description": "dev"
     },
     {
-      "url": "https://pixel-api.marcusleitedev/api",
+      "url": "https://pixel-api.marcusleitedev.com/api",
       "description": "prod"
     }
   ],
